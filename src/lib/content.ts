@@ -73,13 +73,18 @@ export async function getPage(slug: string) {
 export async function getGallery() {
   if (!client) return [];
   try {
-    return await client.fetch(
+    const items = await client.fetch(
       `*[_type == "galleryItem"] | order(order asc){
         _id, title, service, description,
         "imageUrl": image.asset->url,
         "alt": coalesce(image.alt, title)
       }`,
     );
+    return items.map((item: Record<string, any>) => ({
+      ...item,
+      carouselUrl: `${item.imageUrl}?w=1200&auto=format&q=80`,
+      viewerUrl: `${item.imageUrl}?w=1920&auto=format&q=86`,
+    }));
   } catch {
     return [];
   }
