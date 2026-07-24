@@ -227,17 +227,6 @@
   background: #071014;
 }
 
-.cta::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    linear-gradient(90deg, rgba(5, 10, 14, 0.92) 0%, rgba(5, 10, 14, 0.62) 58%, rgba(5, 10, 14, 0.3)),
-    linear-gradient(0deg, rgba(4, 8, 11, 0.36), transparent);
-  pointer-events: none;
-}
-
 .cta-lightning {
   position: absolute;
   inset: 0;
@@ -245,7 +234,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  opacity: 0.92;
+  opacity: 1;
   pointer-events: none;
 }
 
