@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPage, getSiteContent } from '../lib/content';
+const { settings } = await getSiteContent();
+const page = await getPage('disclaimers');
+const fallbackSections = [
+  { heading: 'General information', copy: 'Website content is provided for general informational purposes and does not create a binding quote, warranty, or service agreement. Service availability, specifications, timing, and pricing may change.' },
+  { heading: 'Window tint laws', copy: 'Customers are responsible for ensuring their selected tint complies with laws applicable to their vehicle and jurisdiction. Recommendations are not legal advice. Medical or other exemptions must be documented and remain the customer’s responsibility.' },
+  { heading: 'Lifetime warranty', copy: 'Lifetime warranty coverage is available only for qualifying products and services and is subject to the written warranty issued for the specific job. Coverage may be limited to the original purchaser or vehicle and may require proof of purchase, proper care, inspections, or maintenance. Damage caused by abuse, accidents, improper cleaning, environmental contamination, pre-existing defects, or third-party work may be excluded.' },
+  { heading: 'Ceramic coating', copy: 'Ceramic coating improves gloss, hydrophobic behavior, and resistance to certain environmental contaminants, but it does not make paint scratch-proof, chip-proof, or maintenance-free. “9H” describes a coating hardness test and does not guarantee protection from every impact or abrasion. Results and longevity vary based on paint condition, preparation, exposure, storage, washing methods, and maintenance.' },
+  { heading: 'Estimates and vehicle condition', copy: 'Telephone estimates are preliminary until the vehicle is inspected. Existing glass, paint, trim, electronics, aftermarket accessories, contamination, damage, or prior film/coating may affect scope, price, timing, and results.' },
+  { heading: 'Media and third-party services', copy: 'Temporary third-party video content, Google reviews, maps, Sanity, and other linked services are governed by their respective owners and terms. Review excerpts are attributed to their authors and may be edited only for length or clarity without changing their meaning.' },
+];
+const sections = page.legalSections?.length ? page.legalSections : fallbackSections;
+---
+<BaseLayout title={`Disclaimers | ${settings.businessName}`} description="Service, warranty, tint law, estimate, and care disclaimers." settings={settings}>
+  <section class="page-hero legal-hero"><p class="eyebrow">Important information</p><h1>Disclaimers</h1><p>Last updated July 23, 2026. This starter language should be reviewed by a qualified attorney before launch.</p></section>
+  <article class="legal">
+    {sections.map((section: any) => <><h2>{section.heading}</h2><p>{section.copy}</p></>)}
+    <h2>Contact</h2><p>Questions about these terms or a specific warranty can be directed to <a href={`tel:${settings.phoneHref}`}>{settings.phoneDisplay}</a>.</p>
+  </article>
+</BaseLayout>

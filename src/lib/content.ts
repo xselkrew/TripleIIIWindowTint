@@ -1,0 +1,84 @@
+import { createClient } from '@sanity/client';
+import {
+  defaultCoatingFeatures,
+  defaultReviews,
+  defaultSettings,
+  defaultTintOptions,
+  defaultPages,
+} from '../content/defaults';
+
+const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID || 'o7039w6t';
+const dataset = import.meta.env.PUBLIC_SANITY_DATASET || 'production';
+const apiVersion = import.meta.env.PUBLIC_SANITY_API_VERSION || '2026-07-01';
+
+const client = projectId
+  ? createClient({ projectId, dataset, apiVersion, useCdn: false })
+  : null;
+
+export async function getSiteContent() {
+  if (!client) {
+    return {
+      settings: defaultSettings,
+      tintOptions: defaultTintOptions,
+      coatingFeatures: defaultCoatingFeatures,
+      reviews: defaultReviews,
+    };
+  }
+
+  try {
+    const data = await client.fetch(`{
+      "settings": *[_type == "siteSettings"][0],
+      "tintOptions": *[_type == "tintOption"] | order(order asc),
+      "coating": *[_type == "ceramicCoating"][0],
+      "reviews": *[_type == "review" && featured == true] | order(order asc)
+    }`);
+
+    return {
+      settings: { ...defaultSettings, ...(data.settings || {}) },
+      tintOptions: data.tintOptions?.length ? data.tintOptions : defaultTintOptions,
+      coatingFeatures: data.coating?.features?.length
+        ? data.coating.features
+        : defaultCoatingFeatures,
+      reviews: data.reviews?.length ? data.reviews : defaultReviews,
+    };
+  } catch {
+    return {
+      settings: defaultSettings,
+      tintOptions: defaultTintOptions,
+      coatingFeatures: defaultCoatingFeatures,
+      reviews: defaultReviews,
+    };
+  }
+}
+
+export async function getPage(slug: string) {
+  const fallback = defaultPages[slug] || {};
+  if (!client) return fallback;
+  try {
+    const page = await client.fetch(
+      `*[_type == "page" && slug.current == $slug][0]{
+        eyebrow, headline, intro, bodyHeading, bodyCopy, seoDescription,
+        legalSections[]{heading, copy}
+      }`,
+      { slug },
+    );
+    return { ...fallback, ...(page || {}) };
+  } catch {
+    return fallback;
+  }
+}
+
+export async function getGallery() {
+  if (!client) return [];
+  try {
+    return await client.fetch(
+      `*[_type == "galleryItem"] | order(order asc){
+        _id, title, service, description,
+        "imageUrl": image.asset->url,
+        "alt": coalesce(image.alt, title)
+      }`,
+    );
+  } catch {
+    return [];
+  }
+}

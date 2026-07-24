@@ -1,0 +1,14 @@
+---
+import CTA from '../components/CTA.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPage, getSiteContent } from '../lib/content';
+const { settings, tintOptions } = await getSiteContent();
+const page = await getPage('tint-options');
+---
+<BaseLayout title={`Tint Options | ${settings.businessName}`} description="Compare ceramic, color stable, and economy automotive window tint." settings={settings}>
+  <section class="page-hero"><p class="eyebrow">{page.eyebrow}</p><h1>{page.headline}</h1><p>{page.intro}</p></section>
+  <section class="section card-grid">
+    {tintOptions.map((option: any) => <article class="service-card"><span class="card-label">{option.label}</span><h2>{option.name}</h2><p>{option.description}</p><ul>{option.features?.map((feature: string) => <li>{feature}</li>)}</ul></article>)}
+  </section>
+  <CTA settings={settings} />
+</BaseLayout>

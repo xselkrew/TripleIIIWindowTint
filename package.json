@@ -1,0 +1,22 @@
+{
+  "name": "triple-iii-window-tint",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "studio": "npm --prefix studio-tripleiiiwindowtint run dev",
+    "studio:deploy": "npm --prefix studio-tripleiiiwindowtint run deploy"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^12.6.8",
+    "@sanity/client": "^7.11.2",
+    "astro": "^5.12.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.8.3"
+  }
+}

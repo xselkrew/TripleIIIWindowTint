@@ -1,0 +1,70 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  settings: Record<string, any>;
+}
+
+const { title, description, settings } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#050607" />
+    <title>{title}</title>
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/launch.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label={`${settings.businessName} home`}>
+        <img src="/logo.png" alt="" />
+        <span>{settings.businessName}</span>
+      </a>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" aria-label="Main navigation">
+        <a href="/tint-options">Tint options</a>
+        <a href="/ceramic-coating">Ceramic coating</a>
+        <a href="/gallery">Gallery</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a class="button button-small" href={`tel:${settings.phoneHref}`}>Book by phone</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer>
+      <div>
+        <a class="footer-brand" href="/">{settings.businessName}</a>
+        <p>{settings.address}</p>
+        <p>{settings.hours}</p>
+      </div>
+      <div class="footer-links">
+        <a href={`tel:${settings.phoneHref}`}>{settings.phoneDisplay}</a>
+        <a href={`sms:${settings.phoneHref}`}>Text us</a>
+        <a href="/disclaimers">Disclaimers</a>
+      </div>
+    </footer>
+    <script>
+      const toggle = document.querySelector('.menu-toggle');
+      const nav = document.querySelector('#site-nav');
+      toggle?.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        nav?.classList.toggle('is-open', !open);
+      });
+    </script>
+  </body>
+</html>

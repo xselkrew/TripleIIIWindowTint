@@ -1,0 +1,12 @@
+---
+import CTA from '../components/CTA.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPage, getSiteContent } from '../lib/content';
+const { settings, coatingFeatures } = await getSiteContent();
+const page = await getPage('ceramic-coating');
+---
+<BaseLayout title={`Ceramic Coating | ${settings.businessName}`} description="High-gloss hydrophobic ceramic vehicle coating in Mansfield, Texas." settings={settings}>
+  <section class="page-hero"><p class="eyebrow">{page.eyebrow}</p><h1>{page.headline}</h1><p>{page.intro}</p></section>
+  <section class="section split"><div><p class="eyebrow">Protection you can see</p><h2>{page.bodyHeading}</h2><p>{page.bodyCopy}</p></div><ul class="feature-list">{coatingFeatures.map((feature: string) => <li>{feature}</li>)}</ul></section>
+  <CTA settings={settings} title="Give your paint a stronger defense." />
+</BaseLayout>

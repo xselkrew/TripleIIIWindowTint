@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getGallery, getPage, getSiteContent } from '../lib/content';
+const { settings } = await getSiteContent();
+const page = await getPage('gallery');
+const gallery = await getGallery();
+---
+<BaseLayout title={`Gallery | ${settings.businessName}`} description="Recent automotive tint and ceramic coating work." settings={settings}>
+  <section class="page-hero"><p class="eyebrow">{page.eyebrow}</p><h1>{page.headline}</h1><p>{page.intro}</p></section>
+  {gallery.length ? (
+    <section class="section gallery-grid">
+      {gallery.map((item: any) => <figure><img src={item.imageUrl} alt={item.alt || ''} loading="lazy" /><figcaption><strong>{item.title}</strong><span>{item.service}</span><p>{item.description}</p></figcaption></figure>)}
+    </section>
+  ) : (
+    <section class="section empty-gallery"><p class="eyebrow">New projects coming soon</p><h2>Follow our work as the gallery grows.</h2><p>Call or text to ask about recent projects like yours.</p><div class="button-row"><a class="button" href={`tel:${settings.phoneHref}`}>Call {settings.phoneDisplay}</a><a class="button button-ghost" href={`sms:${settings.phoneHref}`}>Text us</a></div></section>
+  )}
+</BaseLayout>

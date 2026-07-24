@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPage, getSiteContent } from '../lib/content';
+const { settings } = await getSiteContent();
+const page = await getPage('contact');
+---
+<BaseLayout title={`Contact & Quote | ${settings.businessName}`} description="Call, text, or request an automotive tint or ceramic coating quote." settings={settings}>
+  <section class="page-hero"><p class="eyebrow">{page.eyebrow}</p><h1>{page.headline}</h1><p>{page.intro}</p></section>
+  <section class="section contact-grid">
+    <div class="contact-panel"><p class="eyebrow">Book directly</p><h2>Call or text Triple III.</h2><a class="contact-action" href={`tel:${settings.phoneHref}`}>Call {settings.phoneDisplay}</a><a class="contact-action" href={`sms:${settings.phoneHref}`}>Text {settings.phoneDisplay}</a></div>
+    <div class="contact-panel"><p class="eyebrow">Visit the shop</p><h2>Mansfield, Texas</h2><p>{settings.address}</p><p>{settings.hours}</p><a href={settings.googleMapsUrl}>Open in Google Maps →</a></div>
+  </section>
+</BaseLayout>

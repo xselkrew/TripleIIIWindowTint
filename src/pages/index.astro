@@ -1,0 +1,96 @@
+---
+import CTA from '../components/CTA.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSiteContent } from '../lib/content';
+
+const { settings, tintOptions, coatingFeatures, reviews } = await getSiteContent();
+const videoUrl = `https://www.youtube-nocookie.com/embed/${settings.heroVideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${settings.heroVideoId}&playsinline=1&modestbranding=1`;
+---
+<BaseLayout
+  title={`${settings.businessName} | Mansfield Automotive Window Tint`}
+  description="Automotive ceramic tint, color stable tint, economy tint, and ceramic coating in Mansfield, Texas."
+  settings={settings}
+>
+  <section class="hero">
+    <iframe
+      src={videoUrl}
+      title="Automotive window tinting background video"
+      allow="autoplay; encrypted-media"
+      tabindex="-1"
+      aria-hidden="true"
+    ></iframe>
+    <div class="hero-shade"></div>
+    <div class="hero-content">
+      <p class="eyebrow">{settings.heroEyebrow}</p>
+      <h1>{settings.heroTitle}</h1>
+      <p>{settings.heroCopy}</p>
+      <div class="button-row">
+        <a class="button" href={`tel:${settings.phoneHref}`}>Book by phone</a>
+        <a class="button button-ghost" href={`sms:${settings.phoneHref}`}>Text us</a>
+      </div>
+    </div>
+    <a class="hero-credit" href="https://www.youtube.com/watch?v=bCKiX-vZif4">Temporary video: Insider Cars</a>
+  </section>
+
+  <section class="trust-strip" aria-label="Business highlights">
+    <span>Precision installation</span><span>Lifetime warranty available</span><span>Mansfield, Texas</span>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">Three levels. One clean finish.</p>
+      <h2>Choose your window tint.</h2>
+      <p>From essential privacy to premium heat rejection, we’ll help you match the right film to your vehicle and budget.</p>
+    </div>
+    <div class="card-grid">
+      {tintOptions.map((option: any, index: number) => (
+        <article class:list={['service-card', { featured: index === 0 }]}>
+          <span class="card-label">{option.label}</span>
+          <h3>{option.name}</h3>
+          <p>{option.description}</p>
+          <ul>{option.features?.map((feature: string) => <li>{feature}</li>)}</ul>
+          <a href="/contact">Ask about this film →</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="warranty section">
+    <div>
+      <p class="eyebrow">Built for the long haul</p>
+      <h2>{settings.warrantyTitle}</h2>
+      <p>{settings.warrantyCopy}</p>
+      <a href="/disclaimers">Review warranty terms →</a>
+    </div>
+    <div class="warranty-mark"><strong>Lifetime</strong><span>qualifying protection</span></div>
+  </section>
+
+  <section class="section coating-preview">
+    <div class="section-heading">
+      <p class="eyebrow">Beyond the glass</p>
+      <h2>Ceramic coating with serious presence.</h2>
+      <p>A high-gloss, hydrophobic protective layer designed to make your vehicle easier to maintain and harder for the elements to damage.</p>
+    </div>
+    <ul class="feature-list">{coatingFeatures.slice(0, 6).map((feature: string) => <li>{feature}</li>)}</ul>
+    <a class="text-link" href="/ceramic-coating">Explore ceramic coating →</a>
+  </section>
+
+  <section class="section reviews">
+    <div class="section-heading">
+      <p class="eyebrow">Real customer feedback</p>
+      <h2>Mansfield drivers recommend us.</h2>
+    </div>
+    <div class="review-grid">
+      {reviews.map((review: any) => (
+        <blockquote>
+          <div class="stars" aria-label={`${review.rating || 5} out of 5 stars`}>★★★★★</div>
+          <p>“{review.quote}”</p>
+          <cite>{review.name} · Google review</cite>
+        </blockquote>
+      ))}
+    </div>
+    <a class="button button-ghost" href={settings.googleMapsUrl}>View our Google listing</a>
+  </section>
+
+  <CTA settings={settings} />
+</BaseLayout>

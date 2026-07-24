@@ -1,0 +1,12 @@
+---
+import CTA from '../components/CTA.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPage, getSiteContent } from '../lib/content';
+const { settings } = await getSiteContent();
+const page = await getPage('about');
+---
+<BaseLayout title={`About | ${settings.businessName}`} description="About Triple III Window Tint in Mansfield, Texas." settings={settings}>
+  <section class="page-hero"><p class="eyebrow">{page.eyebrow}</p><h1>{page.headline}</h1><p>{page.intro}</p></section>
+  <section class="section split"><div><h2>{page.bodyHeading}</h2><p>{page.bodyCopy}</p></div><div class="info-panel"><strong>{settings.businessName}</strong><span>{settings.address}</span><span>{settings.hours}</span><a href={settings.googleMapsUrl}>Get directions →</a></div></section>
+  <CTA settings={settings} />
+</BaseLayout>

@@ -1,0 +1,5 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "studio-tripleiiiwindowtint/dist", "studio-tripleiiiwindowtint/node_modules"]
+}

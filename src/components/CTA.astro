@@ -1,0 +1,12 @@
+---
+const { settings, title = 'Ready to protect your ride?' } = Astro.props;
+---
+<section class="cta">
+  <p class="eyebrow">Appointments available Monday–Saturday</p>
+  <h2>{title}</h2>
+  <p>Call or text to choose your film, confirm availability, and reserve your installation.</p>
+  <div class="button-row">
+    <a class="button" href={`tel:${settings.phoneHref}`}>Call {settings.phoneDisplay}</a>
+    <a class="button button-ghost" href={`sms:${settings.phoneHref}`}>Text to book</a>
+  </div>
+</section>
