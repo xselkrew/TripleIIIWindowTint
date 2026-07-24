@@ -117,9 +117,23 @@ const vehicleBrands: LogoAsset[] = [
   </section>
 
   <section class="section reviews">
-    <div class="section-heading">
-      <p class="eyebrow">Real customer feedback</p>
-      <h2>Mansfield drivers recommend us.</h2>
+    <div class="reviews-intro">
+      <div class="section-heading">
+        <p class="eyebrow">Real customer feedback</p>
+        <h2>Mansfield drivers recommend us.</h2>
+      </div>
+      <div class="review-callout">
+        <strong>100%</strong>
+        <svg class="review-arrow" viewBox="0 0 270 145" fill="none" aria-hidden="true">
+          <defs>
+            <marker id="review-arrowhead" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto">
+              <path d="M1 1 8 5 1 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            </marker>
+          </defs>
+          <path class="review-arrow-desktop" d="M250 16C210 72 133 76 42 126" marker-end="url(#review-arrowhead)"></path>
+          <path class="review-arrow-mobile" d="M26 14C92 24 119 67 64 126" marker-end="url(#review-arrowhead)"></path>
+        </svg>
+      </div>
     </div>
     <div class="review-grid">
       {reviews.map((review: any) => (
