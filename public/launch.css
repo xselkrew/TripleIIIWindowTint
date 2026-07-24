@@ -134,6 +134,34 @@
   letter-spacing: 0.035em;
 }
 
+.trust-strip {
+  color: #b8ecff;
+}
+
+.trust-item {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 10px;
+  white-space: nowrap;
+  transition:
+    color 180ms ease,
+    filter 180ms ease,
+    transform 180ms ease;
+}
+
+.trust-icon {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+  color: #39c4ff;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 7px rgba(57, 196, 255, 0.28));
+}
+
 :where(a, button, h1) {
   transition:
     color 180ms ease,
@@ -171,6 +199,12 @@
   .button-ghost:hover {
     color: var(--text);
     background-color: rgba(57, 196, 255, 0.14);
+  }
+
+  .trust-item:hover {
+    color: #e2f8ff;
+    filter: brightness(1.12);
+    transform: translateY(-1px);
   }
 }
 
@@ -219,5 +253,9 @@
 
   .warranty::before {
     animation: none;
+  }
+
+  .trust-item {
+    transition: none;
   }
 }
