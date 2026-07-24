@@ -33,20 +33,28 @@
 }
 
 .site-header {
-  height: 142px;
+  height: 112px;
+  overflow: visible;
 }
 
 .brand img {
-  width: 130px;
-  height: 130px;
+  width: 162px;
+  height: 162px;
+  transform: translateY(25px);
+  position: relative;
+  z-index: 2;
 }
 
 .brand span {
   font-size: 1.35rem;
+  margin-left: 4px;
 }
 
 .hero {
-  height: min(820px, calc(100vh - 142px));
+  width: min(1400px, calc(100% - 48px));
+  height: min(760px, calc(100vh - 160px));
+  margin: 64px auto 0;
+  border: 1px solid var(--line);
   background-image:
     linear-gradient(90deg, rgba(2, 4, 6, 0.72), rgba(2, 4, 6, 0.18)),
     var(--hero-poster);
@@ -60,12 +68,13 @@
   }
 
   .site-header {
-    height: 96px;
+    height: 78px;
   }
 
   .brand img {
-    width: 82px;
-    height: 82px;
+    width: 104px;
+    height: 104px;
+    transform: translateY(16px);
   }
 
   .brand span {
@@ -73,6 +82,12 @@
   }
 
   .site-header nav {
-    top: 96px;
+    top: 78px;
+  }
+
+  .hero {
+    width: calc(100% - 24px);
+    height: 680px;
+    margin-top: 40px;
   }
 }
