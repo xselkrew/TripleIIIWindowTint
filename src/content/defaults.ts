@@ -6,7 +6,7 @@ export const defaultSettings = {
   hours: 'Monday–Saturday, 9:00 AM–5:00 PM',
   googleMapsUrl: 'https://maps.app.goo.gl/uUeqE9SnnPaNhq7u5',
   heroEyebrow: 'Mansfield, Texas • Automotive Tint & Protection',
-  heroTitle: 'Sharper style. Cooler drives. Protection built to last.',
+  heroTitle: 'Sharper style. Cooler drives. Tint built to last.',
   heroCopy:
     'Premium automotive window tint and ceramic coating installed with precision in Mansfield, Texas.',
   heroVideoId: 'bCKiX-vZif4',

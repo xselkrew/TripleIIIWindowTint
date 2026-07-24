@@ -93,20 +93,20 @@
 }
 
 .site-header {
-  height: 124px;
+  height: 136px;
   overflow: visible;
 }
 
 .brand img {
-  width: 144px;
-  height: 144px;
-  transform: translateY(10px);
+  width: 158px;
+  height: 158px;
+  transform: translateY(11px);
   position: relative;
   z-index: 2;
 }
 
 .brand span {
-  font-size: 1.45rem;
+  font-size: 1.55rem;
   margin-left: 4px;
 }
 
@@ -116,7 +116,7 @@
 
 .hero {
   width: 100%;
-  height: min(760px, calc(100vh - 124px));
+  height: min(760px, calc(100vh - 136px));
   min-height: 720px;
   margin: 0 auto;
   border: 0;
@@ -214,21 +214,21 @@
   }
 
   .site-header {
-    height: 84px;
+    height: 90px;
   }
 
   .brand img {
-    width: 96px;
-    height: 96px;
-    transform: translateY(6px);
+    width: 104px;
+    height: 104px;
+    transform: translateY(7px);
   }
 
   .brand span {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
   }
 
   .site-header nav {
-    top: 84px;
+    top: 90px;
   }
 
   .hero {
