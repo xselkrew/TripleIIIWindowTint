@@ -1,7 +1,6 @@
 ---
 import CTA from '../components/CTA.astro';
 import { ShaderBackground } from '../components/ui/istanblue';
-import { LogoCarousel, type LogoAsset } from '../components/ui/logo-carousel';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getSiteContent } from '../lib/content';
 
@@ -9,13 +8,6 @@ const { settings, tintOptions, coatingFeatures, reviews } = await getSiteContent
 const siteOrigin = Astro.url.origin;
 const videoUrl = `https://www.youtube.com/embed/${settings.heroVideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${settings.heroVideoId}&playsinline=1&modestbranding=1&rel=0&disablekb=1&fs=0&iv_load_policy=3&origin=${encodeURIComponent(siteOrigin)}`;
 const videoPoster = `https://i.ytimg.com/vi/${settings.heroVideoId}/maxresdefault.jpg`;
-const vehicleBrands: LogoAsset[] = [
-  { id: 1, name: 'BMW', kind: 'bmw' },
-  { id: 2, name: 'Honda', kind: 'image', src: '/brands/honda.png' },
-  { id: 3, name: 'Lexus', kind: 'image', src: '/brands/lexus.png' },
-  { id: 4, name: 'Tesla', kind: 'image', src: '/brands/tesla.png' },
-  { id: 5, name: 'Toyota', kind: 'image', src: '/brands/toyota.png' },
-];
 ---
 <BaseLayout
   title={`${settings.businessName} | Mansfield Automotive Window Tint`}
@@ -107,10 +99,6 @@ const vehicleBrands: LogoAsset[] = [
       <p>A high-gloss, hydrophobic protective layer designed to make your vehicle easier to maintain and harder for the elements to damage.</p>
     </div>
     <ul class="feature-list">{coatingFeatures.slice(0, 6).map((feature: string) => <li>{feature}</li>)}</ul>
-    <div class="vehicle-brands">
-      <p>Built for the vehicles you drive.</p>
-      <LogoCarousel logos={vehicleBrands} client:visible />
-    </div>
     <a class="text-link" href="/ceramic-coating">Explore ceramic coating →</a>
   </section>
 
