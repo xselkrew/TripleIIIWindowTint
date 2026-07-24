@@ -15,6 +15,7 @@
     "@astrojs/react": "^6.0.1",
     "@sanity/client": "^7.11.2",
     "astro": "^5.12.4",
+    "framer-motion": "^12.42.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
