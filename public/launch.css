@@ -221,39 +221,23 @@
 }
 
 .reviews-intro {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
-  align-items: end;
-  gap: 48px;
-  margin-bottom: 48px;
+  position: relative;
+  margin-bottom: 78px;
 }
 
 .reviews-intro .section-heading {
   margin-bottom: 0;
 }
 
-.review-callout {
+.review-arrow-anchor {
   position: relative;
-  height: 176px;
-}
-
-.review-callout strong {
-  position: absolute;
-  top: 0;
-  right: 0;
-  color: #fff;
-  font-family: "Barlow Condensed", Impact, sans-serif;
-  font-size: clamp(5.5rem, 9vw, 8.5rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 0.78;
-  text-shadow: 0 0 30px rgba(57, 196, 255, 0.16);
+  display: inline-block;
 }
 
 .review-arrow {
   position: absolute;
-  right: 0;
-  bottom: -12px;
+  top: 72%;
+  left: 56%;
   width: 270px;
   height: 145px;
   overflow: visible;
@@ -380,25 +364,12 @@
   }
 
   .reviews-intro {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .review-callout {
-    width: 220px;
-    height: 150px;
-  }
-
-  .review-callout strong {
-    right: auto;
-    left: 0;
-    font-size: 6rem;
+    margin-bottom: 94px;
   }
 
   .review-arrow {
-    right: auto;
-    bottom: -8px;
-    left: 28px;
+    top: 72%;
+    left: 48%;
     width: 190px;
     height: 120px;
   }
