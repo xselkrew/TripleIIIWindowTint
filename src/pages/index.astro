@@ -1,5 +1,6 @@
 ---
 import CTA from '../components/CTA.astro';
+import { ShaderBackground } from '../components/ui/istanblue';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getSiteContent } from '../lib/content';
 
@@ -61,13 +62,14 @@ const videoPoster = `https://i.ytimg.com/vi/${settings.heroVideoId}/maxresdefaul
   </section>
 
   <section class="warranty section">
-    <div>
+    <ShaderBackground className="warranty-shader" client:visible />
+    <div class="warranty-content">
       <p class="eyebrow">Built for the long haul</p>
       <h2>{settings.warrantyTitle}</h2>
       <p>{settings.warrantyCopy}</p>
       <a href="/disclaimers">Review warranty terms →</a>
     </div>
-    <div class="warranty-mark"><strong>Lifetime</strong><span>qualifying protection</span></div>
+    <div class="warranty-mark warranty-content"><strong>Lifetime</strong><span>qualifying protection</span></div>
   </section>
 
   <section class="section coating-preview">
