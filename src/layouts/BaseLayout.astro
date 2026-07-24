@@ -39,7 +39,7 @@ const { title, description, settings } = Astro.props;
         <a href="/gallery">Gallery</a>
         <a href="/about">About</a>
         <a href="/contact">Contact</a>
-        <a class="button button-small" href={`tel:${settings.phoneHref}`}>Book by phone</a>
+        <a class="button button-small" href={`tel:${settings.phoneHref}`}>{settings.phoneDisplay}</a>
       </nav>
     </header>
     <main>
