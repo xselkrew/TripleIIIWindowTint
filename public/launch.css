@@ -32,8 +32,47 @@
   max-width: 780px;
 }
 
+.site-header {
+  height: 112px;
+}
+
+.brand img {
+  width: 100px;
+  height: 100px;
+}
+
+.brand span {
+  font-size: 1.35rem;
+}
+
+.hero {
+  height: min(820px, calc(100vh - 112px));
+  background-image:
+    linear-gradient(90deg, rgba(2, 4, 6, 0.72), rgba(2, 4, 6, 0.18)),
+    var(--hero-poster);
+  background-position: center;
+  background-size: cover;
+}
+
 @media (max-width: 850px) {
   .gallery-grid {
     grid-template-columns: 1fr;
+  }
+
+  .site-header {
+    height: 84px;
+  }
+
+  .brand img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .brand span {
+    font-size: 1rem;
+  }
+
+  .site-header nav {
+    top: 84px;
   }
 }
