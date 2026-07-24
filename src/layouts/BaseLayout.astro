@@ -6,6 +6,7 @@ interface Props {
 }
 
 const { title, description, settings } = Astro.props;
+const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(settings.address)}&output=embed`;
 ---
 
 <!doctype html>
@@ -45,15 +46,24 @@ const { title, description, settings } = Astro.props;
     <main>
       <slot />
     </main>
-    <footer>
-      <div>
+    <footer class="site-footer">
+      <div class="footer-details">
         <a class="footer-brand" href="/">{settings.businessName}</a>
         <p>{settings.address}</p>
         <p>{settings.hours}</p>
       </div>
-      <div class="footer-links">
-        <a href={`tel:${settings.phoneHref}`}>{settings.phoneDisplay}</a>
-        <a href={`sms:${settings.phoneHref}`}>Text us</a>
+      <div class="footer-map">
+        <iframe
+          src={mapEmbedUrl}
+          title={`Map and directions to ${settings.businessName}`}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+        <a href={settings.googleMapsUrl} target="_blank" rel="noopener noreferrer">
+          Open directions in Google Maps ↗
+        </a>
+      </div>
+      <div class="footer-links footer-legal">
         <a href="/disclaimers">Disclaimers</a>
       </div>
     </footer>
