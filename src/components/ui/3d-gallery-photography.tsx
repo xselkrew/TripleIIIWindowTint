@@ -71,15 +71,22 @@ function GalleryPlane({
   useFrame(() => {
     if (!group.current) return;
     const distance = wrapDistance(imageIndex - positionRef.current, total);
-    const depth = Math.abs(distance) * zSpacing;
-    const side = distance === 0 ? 0 : Math.sign(distance);
+    const absoluteDistance = Math.abs(distance);
+    const arcStep = 0.31;
+    const angle = Math.max(-1.28, Math.min(1.28, distance * arcStep));
+    const radius = 7.2 + zSpacing * 0.35;
+    const depth = absoluteDistance * zSpacing;
     const visibility = Math.max(
       0.12,
       Math.min(1, 1 - (depth - falloff.near) / Math.max(1, falloff.far - falloff.near)),
     );
-    group.current.position.set(side * Math.min(3.45, Math.abs(distance) * 1.35), distance * -0.09, -depth);
-    group.current.rotation.set(0, side * -0.17, side * 0.025);
-    group.current.scale.setScalar(0.78 + visibility * 0.22);
+    group.current.position.set(
+      Math.sin(angle) * radius,
+      -absoluteDistance * 0.055,
+      (Math.cos(angle) - 1) * radius,
+    );
+    group.current.rotation.set(0, -angle, distance * -0.008);
+    group.current.scale.setScalar((0.74 + visibility * 0.22) * (absoluteDistance < 0.5 ? 1.06 : 1));
     group.current.visible = depth <= falloff.far + zSpacing;
   });
 
@@ -295,6 +302,7 @@ export default function InfiniteGallery({
   const draggedRef = useRef(false);
   const pointerStart = useRef<{ x: number; target: number } | null>(null);
   const resumeTimer = useRef<number | null>(null);
+  const snapTimer = useRef<number | null>(null);
   const shell = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -324,6 +332,8 @@ export default function InfiniteGallery({
       mobile.removeEventListener('change', syncMedia);
       document.removeEventListener('visibilitychange', syncVisibility);
       observer.disconnect();
+      if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
+      if (snapTimer.current) window.clearTimeout(snapTimer.current);
     };
   }, []);
 
@@ -343,11 +353,16 @@ export default function InfiniteGallery({
     (amount: number) => {
       pauseAfterInteraction();
       targetRef.current += amount;
+      if (snapTimer.current) window.clearTimeout(snapTimer.current);
+      snapTimer.current = window.setTimeout(() => {
+        targetRef.current = Math.round(targetRef.current);
+      }, 180);
     },
     [pauseAfterInteraction],
   );
 
   const openImage = useCallback((index: number) => setLightboxIndex(index), []);
+  const closeImage = useCallback(() => setLightboxIndex(null), []);
 
   if (!images.length) return null;
 
@@ -379,6 +394,7 @@ export default function InfiniteGallery({
         }}
         onPointerDown={(event) => {
           if (useStatic) return;
+          if ((event.target as HTMLElement).closest('button')) return;
           draggedRef.current = false;
           pointerStart.current = { x: event.clientX, target: targetRef.current };
           event.currentTarget.setPointerCapture(event.pointerId);
@@ -392,6 +408,7 @@ export default function InfiniteGallery({
         }}
         onPointerUp={() => {
           pointerStart.current = null;
+          targetRef.current = Math.round(targetRef.current);
           window.setTimeout(() => {
             draggedRef.current = false;
           }, 0);
@@ -412,7 +429,7 @@ export default function InfiniteGallery({
             <Suspense fallback={<div className="gallery-loading">Loading project gallery…</div>}>
               <Canvas
                 dpr={isMobile ? [1, 1.35] : [1, 1.75]}
-                camera={{ position: [0, 0, 8], fov: 45 }}
+                camera={{ position: [0, 0.1, 8.8], fov: 44 }}
                 gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
                 onCreated={({ gl }) => {
                   gl.domElement.addEventListener(
@@ -461,7 +478,7 @@ export default function InfiniteGallery({
           images={images}
           index={lightboxIndex}
           onChange={setLightboxIndex}
-          onClose={() => setLightboxIndex(null)}
+          onClose={closeImage}
         />
       )}
     </>
