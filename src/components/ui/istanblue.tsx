@@ -63,8 +63,8 @@ void main() {
 
   vec2 pointer = u_pointer * 0.22;
   float field = uv.y
-    + sin(uv.x * 6.87 + u_time * 0.8) * 0.08
-    + (fbm((p + pointer) * 2.0 + u_time * 0.1) - 0.5) * 0.258;
+    + sin(uv.x * 6.87 + u_time * 1.25) * 0.11
+    + (fbm((p + pointer) * 2.0 + u_time * 0.16) - 0.5) * 0.31;
   vec3 color = palette(clamp(field, 0.0, 1.0));
   color = (color - 0.5) * 0.915 + 0.5;
   float luma = dot(color, vec3(0.299, 0.587, 0.114));
@@ -131,34 +131,50 @@ export function ShaderBackground({ className = '' }: { className?: string }) {
     };
 
     const render = (now: number) => {
+      frame = 0;
       if (!inView || document.hidden) return;
       resize();
       gl.uniform2f(resolution, canvas.width, canvas.height);
-      gl.uniform1f(time, ((now - started) / 1000) * 0.746);
+      gl.uniform1f(time, ((now - started) / 1000) * 1.08);
       gl.uniform2f(pointer, pointerX, pointerY);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       if (!reduceMotion) frame = requestAnimationFrame(render);
     };
 
+    const start = () => {
+      if (frame === 0 && inView && !document.hidden) {
+        frame = requestAnimationFrame(render);
+      }
+    };
+
+    const stop = () => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+    };
+
     const observer = new IntersectionObserver(([entry]) => {
       inView = entry?.isIntersecting ?? true;
-      if (inView && frame === 0) frame = requestAnimationFrame(render);
-      if (!inView && frame) {
-        cancelAnimationFrame(frame);
-        frame = 0;
-      }
+      if (inView) start();
+      else stop();
     });
+
+    const onVisibilityChange = () => {
+      if (document.hidden) stop();
+      else start();
+    };
 
     observer.observe(canvas);
     window.addEventListener('resize', resize);
     window.addEventListener('pointermove', onPointer, { passive: true });
-    frame = requestAnimationFrame(render);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    start();
 
     return () => {
-      cancelAnimationFrame(frame);
+      stop();
       observer.disconnect();
       window.removeEventListener('resize', resize);
       window.removeEventListener('pointermove', onPointer);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       gl.deleteBuffer(buffer);
       gl.deleteProgram(program);
       gl.deleteShader(vertex);
