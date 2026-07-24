@@ -28,7 +28,11 @@ export async function getSiteContent() {
   try {
     const data = await client.fetch(`{
       "settings": *[_type == "siteSettings"][0],
-      "tintOptions": *[_type == "tintOption"] | order(order asc),
+      "tintOptions": *[_type == "tintOption"] | order(order asc){
+        ...,
+        "imageUrl": image.asset->url,
+        "imageAlt": image.alt
+      },
       "coating": *[_type == "ceramicCoating"][0],
       "reviews": *[_type == "review" && featured == true] | order(order asc)
     }`);

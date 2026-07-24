@@ -27,6 +27,15 @@ const tintOption = defineType({
   fields: [
     defineField({ name: 'name', title: 'Name', type: 'string', validation: (r) => r.required() }),
     defineField({ name: 'label', title: 'Short label', type: 'string' }),
+    defineField({
+      name: 'image',
+      title: 'Card image',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        defineField({ name: 'alt', title: 'Alternative text', type: 'string' }),
+      ],
+    }),
     defineField({ name: 'description', title: 'Description', type: 'text' }),
     defineField({ name: 'features', title: 'Features', type: 'array', of: [defineArrayMember({ type: 'string' })] }),
     defineField({ name: 'order', title: 'Order', type: 'number' }),

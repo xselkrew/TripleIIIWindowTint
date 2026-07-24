@@ -19,6 +19,8 @@ export const defaultTintOptions = [
   {
     name: 'Ceramic Tint',
     label: 'Maximum performance',
+    imageUrl: '/tint-options/ceramic-tint.webp',
+    imageAlt: 'Dark ceramic-tinted vehicle windows reflecting bright sunlight',
     description:
       'Our premium film delivers exceptional heat rejection, UV protection, clarity, and comfort without interfering with electronics.',
     features: ['Superior heat rejection', 'UV protection', 'Signal-friendly construction'],
@@ -26,6 +28,8 @@ export const defaultTintOptions = [
   {
     name: 'Color Stable Tint',
     label: 'Premium everyday value',
+    imageUrl: '/tint-options/color-stable-tint.webp',
+    imageAlt: 'Neutral charcoal tint on a silver vehicle',
     description:
       'A rich, non-reflective finish engineered to resist fading while improving privacy, comfort, and vehicle appearance.',
     features: ['Fade-resistant color', 'Reduced glare', 'Clean factory-style finish'],
@@ -33,6 +37,8 @@ export const defaultTintOptions = [
   {
     name: 'Economy Tint',
     label: 'Essential protection',
+    imageUrl: '/tint-options/economy-tint.webp',
+    imageAlt: 'Privacy tint on a blue-gray everyday vehicle',
     description:
       'A budget-conscious option for drivers who want dependable privacy, glare reduction, and a sharper look.',
     features: ['Affordable upgrade', 'Added privacy', 'Glare reduction'],
