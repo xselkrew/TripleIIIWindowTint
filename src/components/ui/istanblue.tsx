@@ -69,6 +69,20 @@ void main() {
   color = (color - 0.5) * 0.915 + 0.5;
   float luma = dot(color, vec3(0.299, 0.587, 0.114));
   color = mix(vec3(luma), color, 1.28) - 0.03;
+
+  float mobile = step(u_resolution.x, u_resolution.y);
+  vec2 darkCenter = mix(vec2(0.27, 0.52), vec2(0.5, 0.72), mobile);
+  darkCenter += vec2(
+    sin(u_time * 0.22) * 0.024,
+    cos(u_time * 0.18) * 0.018
+  );
+  vec2 darkDelta = uv - darkCenter;
+  darkDelta.x *= mix(1.15, 0.92, mobile);
+  darkDelta.y *= mix(1.35, 1.7, mobile);
+  float darkCloud = 1.0 - smoothstep(0.08, 0.48, length(darkDelta));
+  vec3 deepNavy = vec3(0.018, 0.055, 0.078);
+  color = mix(color, deepNavy, darkCloud * 0.7);
+
   gl_FragColor = vec4(clamp(color, 0.0, 1.0), 1.0);
 }`;
 
