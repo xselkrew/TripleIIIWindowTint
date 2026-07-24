@@ -43,8 +43,25 @@
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 0;
+  background: linear-gradient(90deg, rgba(2, 6, 9, 0.78), rgba(2, 6, 9, 0.24));
+  pointer-events: none;
+}
+
+.warranty::before {
+  content: "";
+  position: absolute;
+  inset: -45%;
   z-index: -1;
-  background: linear-gradient(90deg, rgba(2, 6, 9, 0.86), rgba(2, 6, 9, 0.34));
+  background:
+    radial-gradient(circle at 28% 42%, rgba(96, 220, 255, 0.78) 0 10%, transparent 34%),
+    radial-gradient(circle at 72% 58%, rgba(0, 139, 205, 0.72) 0 12%, transparent 38%),
+    conic-gradient(from 30deg, transparent, rgba(57, 196, 255, 0.48), transparent 42%);
+  filter: blur(18px);
+  opacity: 0.78;
+  transform-origin: center;
+  animation: warranty-flow 7s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
 .warranty-shader {
@@ -59,6 +76,20 @@
 .warranty-content {
   position: relative;
   z-index: 1;
+}
+
+@keyframes warranty-flow {
+  0% {
+    transform: translate3d(-7%, -4%, 0) rotate(-8deg) scale(1);
+  }
+
+  50% {
+    transform: translate3d(8%, 5%, 0) rotate(7deg) scale(1.08);
+  }
+
+  100% {
+    transform: translate3d(-2%, 9%, 0) rotate(16deg) scale(1.14);
+  }
 }
 
 .site-header {
@@ -184,5 +215,9 @@
 @media (prefers-reduced-motion: reduce) {
   :where(a, button, h1) {
     transition: none;
+  }
+
+  .warranty::before {
+    animation: none;
   }
 }
