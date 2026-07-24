@@ -39,15 +39,6 @@
   padding-inline: 48px;
 }
 
-.warranty::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: linear-gradient(90deg, rgba(2, 6, 9, 0.78), rgba(2, 6, 9, 0.24));
-  pointer-events: none;
-}
-
 .warranty::before {
   content: "";
   position: absolute;
