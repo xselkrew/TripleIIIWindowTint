@@ -78,6 +78,14 @@
   z-index: 1;
 }
 
+.warranty-mark img {
+  display: block;
+  width: 92%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 26px rgba(0, 91, 154, 0.32));
+}
+
 @keyframes warranty-flow {
   0% {
     transform: translate3d(-7%, -4%, 0) rotate(-8deg) scale(1);
@@ -163,19 +171,8 @@
 }
 
 .vehicle-brands {
+  align-self: end;
   min-width: 0;
-}
-
-.vehicle-brands-cta {
-  display: grid;
-  justify-items: center;
-  width: min(var(--max), calc(100% - 48px));
-  margin: -60px auto 100px;
-  text-align: center;
-}
-
-.vehicle-brands-cta .brand-carousel {
-  max-width: 760px;
 }
 
 .vehicle-brands > p {

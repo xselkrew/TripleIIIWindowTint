@@ -97,7 +97,9 @@ const vehicleBrands: LogoAsset[] = [
       <p>{settings.warrantyCopy}</p>
       <a href="/disclaimers">Review warranty terms →</a>
     </div>
-    <div class="warranty-mark warranty-content"><strong>Lifetime</strong><span>qualifying protection</span></div>
+    <div class="warranty-mark warranty-content">
+      <img src="/lifetime-warranty.png" alt="Lifetime warranty" loading="lazy" />
+    </div>
   </section>
 
   <section class="section coating-preview">
@@ -107,6 +109,10 @@ const vehicleBrands: LogoAsset[] = [
       <p>A high-gloss, hydrophobic protective layer designed to make your vehicle easier to maintain and harder for the elements to damage.</p>
     </div>
     <ul class="feature-list">{coatingFeatures.slice(0, 6).map((feature: string) => <li>{feature}</li>)}</ul>
+    <div class="vehicle-brands">
+      <p>Built for the vehicles you drive.</p>
+      <LogoCarousel logos={vehicleBrands} client:visible />
+    </div>
     <a class="text-link" href="/ceramic-coating">Explore ceramic coating →</a>
   </section>
 
@@ -128,8 +134,4 @@ const vehicleBrands: LogoAsset[] = [
   </section>
 
   <CTA settings={settings} />
-  <div class="vehicle-brands vehicle-brands-cta">
-    <p>Built for the vehicles you drive.</p>
-    <LogoCarousel logos={vehicleBrands} client:visible />
-  </div>
 </BaseLayout>
