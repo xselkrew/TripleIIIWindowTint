@@ -16,7 +16,7 @@ const { title, description, settings } = Astro.props;
     <meta name="description" content={description} />
     <meta name="theme-color" content="#050607" />
     <title>{title}</title>
-    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,7 +29,7 @@ const { title, description, settings } = Astro.props;
   <body>
     <header class="site-header">
       <a class="brand" href="/" aria-label={`${settings.businessName} home`}>
-        <img src="/logo.png" alt="" />
+        <img src="/logo.webp" width="512" height="512" alt="" />
         <span>{settings.businessName}</span>
       </a>
       <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
