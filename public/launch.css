@@ -135,7 +135,7 @@
 }
 
 .trust-strip {
-  color: #b8ecff;
+  color: #fff;
 }
 
 .trust-item {
@@ -154,12 +154,12 @@
   width: 21px;
   height: 21px;
   flex: 0 0 21px;
-  color: #39c4ff;
+  color: #fff;
   stroke: currentColor;
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 7px rgba(57, 196, 255, 0.28));
+  filter: drop-shadow(0 0 7px rgba(255, 255, 255, 0.22));
 }
 
 :where(a, button, h1) {
@@ -202,7 +202,7 @@
   }
 
   .trust-item:hover {
-    color: #e2f8ff;
+    color: #fff;
     filter: brightness(1.12);
     transform: translateY(-1px);
   }
