@@ -57,6 +57,7 @@
 .hero {
   width: min(1400px, calc(100% - 48px));
   height: min(760px, calc(100vh - 160px));
+  min-height: 720px;
   margin: 0 auto;
   border: 1px solid var(--line);
   background-image:
@@ -92,6 +93,7 @@
   .hero {
     width: calc(100% - 24px);
     height: 680px;
+    min-height: 680px;
   }
 
   .hero-stage {
