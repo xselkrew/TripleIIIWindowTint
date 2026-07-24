@@ -17,6 +17,9 @@ const siteSettings = defineType({
     defineField({ name: 'heroVideoId', title: 'YouTube video ID', type: 'string' }),
     defineField({ name: 'warrantyTitle', title: 'Warranty headline', type: 'string' }),
     defineField({ name: 'warrantyCopy', title: 'Warranty text', type: 'text' }),
+    defineField({ name: 'comparisonEyebrow', title: 'Tint comparison eyebrow', type: 'string' }),
+    defineField({ name: 'comparisonTitle', title: 'Tint comparison heading', type: 'string' }),
+    defineField({ name: 'comparisonInstruction', title: 'Tint comparison instruction', type: 'text' }),
   ],
 });
 

@@ -13,6 +13,10 @@ export const defaultSettings = {
   warrantyTitle: 'Lifetime protection, backed with confidence.',
   warrantyCopy:
     'Lifetime warranty is available on qualifying window films and ceramic-coating services. Eligibility, care requirements, and exclusions apply.',
+  comparisonEyebrow: 'Find your fit',
+  comparisonTitle: 'Squeegee through the difference.',
+  comparisonInstruction:
+    'Drag the squeegee across the windshield to compare Ceramic, Premium, and Economy tint.',
 };
 
 export const defaultTintOptions = [

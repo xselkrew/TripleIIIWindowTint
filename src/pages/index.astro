@@ -1,6 +1,7 @@
 ---
 import CTA from '../components/CTA.astro';
 import CoatingFeatureIcon from '../components/CoatingFeatureIcon.astro';
+import TintSqueegeeSlider from '../components/TintSqueegeeSlider.astro';
 import { ShaderBackground } from '../components/ui/istanblue';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getSiteContent } from '../lib/content';
@@ -104,6 +105,8 @@ const tintVisuals = [
       ))}
     </div>
   </section>
+
+  <TintSqueegeeSlider settings={settings} options={tintOptions} />
 
   <section class="warranty section">
     <ShaderBackground className="warranty-shader" client:load />

@@ -348,6 +348,359 @@
   }
 }
 
+.tint-comparison {
+  padding-top: 30px;
+}
+
+.tint-comparison-heading {
+  margin-bottom: 34px;
+}
+
+.tint-comparison-shell {
+  --squeegee-position: 6%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(300px, 0.85fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.windshield-wrap {
+  position: relative;
+  min-width: 0;
+}
+
+.windshield {
+  position: relative;
+  min-height: 390px;
+  overflow: hidden;
+  border: 1px solid rgba(184, 236, 255, 0.38);
+  border-radius: 60px 60px 28px 28px / 32px 32px 20px 20px;
+  background:
+    linear-gradient(140deg, rgba(85, 141, 168, 0.3), rgba(5, 12, 17, 0.94) 65%),
+    #071014;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -34px 70px rgba(0, 0, 0, 0.46),
+    0 24px 70px rgba(0, 0, 0, 0.32);
+}
+
+.windshield::before,
+.windshield::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.windshield::before {
+  inset: 10px;
+  z-index: 5;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 52px 52px 22px 22px / 26px 26px 16px 16px;
+}
+
+.windshield::after {
+  left: 5%;
+  right: 5%;
+  bottom: 18px;
+  z-index: 4;
+  height: 5px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, transparent, rgba(57, 196, 255, 0.46), transparent);
+  filter: blur(1px);
+}
+
+.windshield-reflection,
+.windshield-film,
+.windshield-reveal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.windshield-reflection {
+  z-index: 1;
+  background:
+    linear-gradient(118deg, transparent 0 18%, rgba(255, 255, 255, 0.13) 19% 22%, transparent 23% 100%),
+    radial-gradient(ellipse at 72% 4%, rgba(159, 224, 255, 0.2), transparent 36%),
+    radial-gradient(ellipse at 18% 90%, rgba(57, 196, 255, 0.1), transparent 38%);
+}
+
+.windshield-film {
+  z-index: 2;
+  background: rgba(3, 9, 13, 0.58);
+  transition: background-color 360ms ease;
+}
+
+.tint-comparison-shell[data-active-tier="0"] .windshield-film {
+  background: rgba(4, 25, 39, 0.36);
+}
+
+.tint-comparison-shell[data-active-tier="1"] .windshield-film {
+  background: rgba(9, 13, 17, 0.48);
+}
+
+.tint-comparison-shell[data-active-tier="2"] .windshield-film {
+  background: rgba(18, 23, 28, 0.6);
+}
+
+.windshield-reveal {
+  right: auto;
+  z-index: 3;
+  width: var(--squeegee-position);
+  border-right: 2px solid rgba(184, 236, 255, 0.76);
+  background:
+    linear-gradient(115deg, rgba(57, 196, 255, 0.16), transparent 45%),
+    rgba(119, 205, 242, 0.08);
+  box-shadow: 12px 0 34px rgba(57, 196, 255, 0.12);
+  transition: width 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.windshield-segments {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  pointer-events: none;
+}
+
+.windshield-segment {
+  display: grid;
+  align-content: end;
+  gap: 4px;
+  padding: 28px 20px 42px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.44);
+  text-transform: uppercase;
+  transition:
+    color 220ms ease,
+    background-color 220ms ease,
+    text-shadow 220ms ease;
+}
+
+.windshield-segment:last-child {
+  border-right: 0;
+}
+
+.windshield-segment small {
+  color: var(--blue);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.windshield-segment strong {
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(1.55rem, 3vw, 2.6rem);
+  line-height: 1;
+}
+
+.windshield-segment.active {
+  color: #fff;
+  background: linear-gradient(0deg, rgba(57, 196, 255, 0.1), transparent 58%);
+  text-shadow: 0 0 22px rgba(57, 196, 255, 0.3);
+}
+
+.squeegee-handle {
+  position: absolute;
+  top: 42%;
+  left: var(--squeegee-position);
+  z-index: 9;
+  width: 78px;
+  transform: translate(-50%, -50%) rotate(7deg);
+  filter: drop-shadow(0 16px 16px rgba(0, 0, 0, 0.44));
+  pointer-events: none;
+  transition: left 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.squeegee-handle svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.squeegee-grip {
+  fill: #c8d5dc;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.squeegee-neck {
+  fill: #138fc8;
+  stroke: #83ddff;
+  stroke-width: 2;
+}
+
+.squeegee-blade {
+  fill: #eef8fc;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.squeegee-edge {
+  fill: #39c4ff;
+  stroke: #b8ecff;
+  stroke-width: 2;
+}
+
+.squeegee-detail {
+  stroke: #5e707a;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.tint-squeegee-input {
+  position: absolute;
+  top: 0;
+  right: 6%;
+  bottom: 0;
+  left: 6%;
+  z-index: 12;
+  width: 88%;
+  height: 100%;
+  margin: 0;
+  cursor: ew-resize;
+  opacity: 0.001;
+  touch-action: pan-y;
+}
+
+.windshield-wrap:has(.tint-squeegee-input:focus-visible) .windshield {
+  outline: 3px solid var(--blue);
+  outline-offset: 5px;
+}
+
+.squeegee-prompt {
+  position: absolute;
+  top: 24px;
+  left: 28px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.tint-comparison-shell:not(.is-prompting) .squeegee-prompt {
+  opacity: 0;
+}
+
+.squeegee-prompt svg {
+  width: 74px;
+  color: var(--blue);
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tint-comparison-shell.is-prompting.prompt-visible .squeegee-handle {
+  animation: squeegee-invite 1.8s ease-in-out infinite;
+}
+
+@keyframes squeegee-invite {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(7deg);
+  }
+
+  50% {
+    transform: translate(calc(-50% + 12px), -50%) rotate(10deg);
+  }
+}
+
+.tint-tier-details {
+  min-width: 0;
+}
+
+.tint-tier-panel {
+  height: 100%;
+  padding: 30px;
+  border: 1px solid rgba(184, 236, 255, 0.24);
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(29, 47, 58, 0.88), rgba(7, 12, 16, 0.96)),
+    var(--panel);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.13),
+    0 20px 56px rgba(0, 0, 0, 0.26);
+}
+
+.tint-tier-panel[hidden] {
+  display: none;
+}
+
+.tint-tier-intro {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.tint-tier-intro img {
+  width: 82px;
+  height: 82px;
+  border: 1px solid rgba(184, 236, 255, 0.3);
+  border-radius: 17px;
+  object-fit: cover;
+}
+
+.tint-tier-intro span {
+  color: var(--blue);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tint-tier-intro h3 {
+  margin: 6px 0 0;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+.tint-tier-panel > p {
+  margin-bottom: 18px;
+}
+
+.tint-tier-panel ul {
+  margin: 0 0 24px;
+  padding-left: 20px;
+  color: #d5dde2;
+}
+
+.tint-tier-panel li {
+  margin-block: 8px;
+}
+
+.tint-tier-panel > a {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.tint-simulation-note {
+  margin: 14px 0 0;
+  color: #7f8d96;
+  font-size: 0.72rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .cta {
   position: relative;
   isolation: isolate;
@@ -517,6 +870,22 @@
     height: calc(100dvh - 104px);
   }
 
+  .tint-comparison-shell {
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.85fr);
+  }
+
+  .windshield {
+    min-height: 350px;
+  }
+
+  .windshield-segment {
+    padding-inline: 14px;
+  }
+
+  .tint-tier-panel {
+    padding: 24px;
+  }
+
   .site-footer {
     grid-template-columns: minmax(0, 1fr) minmax(300px, 1fr);
   }
@@ -566,6 +935,42 @@
 
   .site-footer {
     grid-template-columns: 1fr;
+  }
+
+  .tint-comparison-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .windshield {
+    min-height: 310px;
+    border-radius: 40px 40px 22px 22px / 24px 24px 16px 16px;
+  }
+
+  .windshield-segment {
+    padding: 22px 9px 34px;
+  }
+
+  .windshield-segment strong {
+    font-size: clamp(1.15rem, 6vw, 1.75rem);
+  }
+
+  .squeegee-handle {
+    width: 66px;
+  }
+
+  .squeegee-prompt {
+    top: 18px;
+    left: 18px;
+    gap: 8px;
+    font-size: 0.64rem;
+  }
+
+  .squeegee-prompt svg {
+    width: 52px;
+  }
+
+  .tint-tier-panel {
+    padding: 24px;
   }
 
   .service-card-title {
@@ -661,6 +1066,16 @@
   }
 
   .review-arrow {
+    animation: none;
+  }
+
+  .windshield-film,
+  .windshield-reveal,
+  .squeegee-handle {
+    transition: none;
+  }
+
+  .tint-comparison-shell.is-prompting.prompt-visible .squeegee-handle {
     animation: none;
   }
 

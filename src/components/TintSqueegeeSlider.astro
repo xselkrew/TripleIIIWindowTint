@@ -1,0 +1,164 @@
+---
+interface Props {
+  settings: Record<string, any>;
+  options: Record<string, any>[];
+}
+
+const { settings, options } = Astro.props;
+const tiers = options.slice(0, 3);
+const tierLabels = ['Ceramic', 'Premium', 'Economy'];
+const fallbackImages = [
+  '/tint-options/ceramic-tint.webp',
+  '/tint-options/color-stable-tint.webp',
+  '/tint-options/economy-tint.webp',
+];
+---
+
+{tiers.length === 3 && (
+  <section class="section tint-comparison" data-tint-comparison>
+    <div class="section-heading tint-comparison-heading">
+      <p class="eyebrow">{settings.comparisonEyebrow}</p>
+      <h2>{settings.comparisonTitle}</h2>
+      <p>{settings.comparisonInstruction}</p>
+    </div>
+
+    <div class="tint-comparison-shell is-prompting" data-active-tier="0" style="--squeegee-position: 6%;">
+      <div class="windshield-wrap">
+        <div class="windshield" aria-hidden="true">
+          <div class="windshield-reflection"></div>
+          <div class="windshield-film"></div>
+          <div class="windshield-reveal"></div>
+          <div class="windshield-segments">
+            {tierLabels.map((label, index) => (
+              <span class:list={['windshield-segment', { active: index === 0 }]} data-tier-label={index}>
+                <small>0{index + 1}</small>
+                <strong>{label}</strong>
+              </span>
+            ))}
+          </div>
+          <div class="squeegee-handle">
+            <svg viewBox="0 0 78 126" fill="none">
+              <path class="squeegee-grip" d="M30 8h18l5 49H25L30 8Z"></path>
+              <path class="squeegee-neck" d="M31 57h16v28H31z"></path>
+              <path class="squeegee-blade" d="M9 84h60l-5 25H14L9 84Z"></path>
+              <path class="squeegee-edge" d="M14 109h50v9H14z"></path>
+              <path d="M34 18h10M33 28h12M32 38h14" class="squeegee-detail"></path>
+            </svg>
+          </div>
+        </div>
+
+        <label class="sr-only" for="tint-squeegee">Compare window tint options</label>
+        <input
+          id="tint-squeegee"
+          class="tint-squeegee-input"
+          type="range"
+          min="0"
+          max="2"
+          step="1"
+          value="0"
+          aria-valuemin="0"
+          aria-valuemax="2"
+          aria-valuenow="0"
+          aria-valuetext="Ceramic"
+        />
+        <div class="squeegee-prompt" aria-hidden="true">
+          <span>Drag the squeegee</span>
+          <svg viewBox="0 0 74 18" fill="none">
+            <path d="M2 9h65"></path>
+            <path d="m60 2 8 7-8 7"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="tint-tier-details" aria-live="polite" aria-atomic="true">
+        {tiers.map((option, index) => (
+          <article class="tint-tier-panel" data-tier-panel={index} hidden={index !== 0}>
+            <div class="tint-tier-intro">
+              <img
+                src={option.imageUrl || fallbackImages[index]}
+                alt={option.imageAlt || `${option.name} illustrative vehicle tint`}
+                width="320"
+                height="320"
+                loading="lazy"
+              />
+              <div>
+                <span>{tierLabels[index]}</span>
+                <h3>{option.name}</h3>
+              </div>
+            </div>
+            <p>{option.description}</p>
+            <ul>
+              {option.features?.slice(0, 3).map((feature: string) => <li>{feature}</li>)}
+            </ul>
+            <a href="/contact">Ask about {option.name.toLowerCase()} →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <p class="tint-simulation-note">
+      Visual simulation only; shade availability and legal limits vary.
+    </p>
+  </section>
+)}
+
+<script>
+  const comparison = document.querySelector<HTMLElement>('[data-tint-comparison]');
+
+  if (comparison) {
+    const shell = comparison.querySelector<HTMLElement>('.tint-comparison-shell');
+    const input = comparison.querySelector<HTMLInputElement>('.tint-squeegee-input');
+    const panels = [...comparison.querySelectorAll<HTMLElement>('[data-tier-panel]')];
+    const labels = [...comparison.querySelectorAll<HTMLElement>('[data-tier-label]')];
+    const positions = ['6%', '50%', '94%'];
+    const names = ['Ceramic', 'Premium', 'Economy'];
+    let hasInteracted = false;
+    let isVisible = false;
+
+    const stopPrompt = () => {
+      if (hasInteracted || !shell) return;
+      hasInteracted = true;
+      shell.classList.remove('is-prompting');
+    };
+
+    const updateTier = () => {
+      if (!input || !shell) return;
+      const index = Math.max(0, Math.min(2, Number(input.value)));
+      shell.dataset.activeTier = String(index);
+      shell.style.setProperty('--squeegee-position', positions[index]);
+      input.setAttribute('aria-valuenow', String(index));
+      input.setAttribute('aria-valuetext', names[index]);
+
+      labels.forEach((label, labelIndex) => {
+        label.classList.toggle('active', labelIndex === index);
+      });
+
+      panels.forEach((panel, panelIndex) => {
+        panel.hidden = panelIndex !== index;
+      });
+    };
+
+    input?.addEventListener('input', () => {
+      stopPrompt();
+      updateTier();
+    });
+    input?.addEventListener('pointerdown', stopPrompt);
+    input?.addEventListener('keydown', stopPrompt);
+
+    const syncPrompt = () => {
+      shell?.classList.toggle('prompt-visible', isVisible && !document.hidden && !hasInteracted);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry?.isIntersecting ?? false;
+        syncPrompt();
+      },
+      { rootMargin: '80px' },
+    );
+
+    observer.observe(comparison);
+    document.addEventListener('visibilitychange', syncPrompt);
+    updateTier();
+  }
+</script>
