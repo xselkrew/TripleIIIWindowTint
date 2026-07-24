@@ -1,33 +1,23 @@
 ---
 import CTA from '../components/CTA.astro';
-import CoatingFeatureIcon from '../components/CoatingFeatureIcon.astro';
+import TintOptionCard from '../components/TintOptionCard.astro';
 import TintSqueegeeSlider from '../components/TintSqueegeeSlider.astro';
 import { ShaderBackground } from '../components/ui/istanblue';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getSiteContent } from '../lib/content';
+import { getPage, getSiteContent } from '../lib/content';
 
-const { settings, tintOptions, coatingFeatures, reviews } = await getSiteContent();
+const { settings, tintOptions, reviews } = await getSiteContent();
+const [residentialPage, commercialPage] = await Promise.all([
+  getPage('residential-tint'),
+  getPage('commercial-tint'),
+]);
 const siteOrigin = Astro.url.origin;
 const videoUrl = `https://www.youtube.com/embed/${settings.heroVideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${settings.heroVideoId}&playsinline=1&modestbranding=1&rel=0&disablekb=1&fs=0&iv_load_policy=3&origin=${encodeURIComponent(siteOrigin)}`;
 const videoPoster = `https://i.ytimg.com/vi/${settings.heroVideoId}/maxresdefault.jpg`;
-const tintVisuals = [
-  {
-    src: '/tint-options/ceramic-tint.webp',
-    alt: 'Dark ceramic-tinted vehicle windows reflecting bright sunlight',
-  },
-  {
-    src: '/tint-options/color-stable-tint.webp',
-    alt: 'Neutral charcoal tint on a silver vehicle',
-  },
-  {
-    src: '/tint-options/economy-tint.webp',
-    alt: 'Privacy tint on a blue-gray everyday vehicle',
-  },
-];
 ---
 <BaseLayout
   title={`${settings.businessName} | Mansfield Automotive Window Tint`}
-  description="Automotive ceramic tint, color stable tint, economy tint, and ceramic coating in Mansfield, Texas."
+  description="Automotive, residential, and commercial window tint installed in Mansfield, Texas."
   settings={settings}
 >
   <div class="hero-stage">
@@ -54,14 +44,14 @@ const tintVisuals = [
   </div>
 
   <section class="trust-strip" aria-label="Business highlights">
-    <span class="trust-item">
+    <a class="trust-item trust-item-warranty" href="/disclaimers" aria-label="Lifetime warranty available; review warranty terms">
       <svg class="trust-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <circle cx="12" cy="12" r="5"></circle>
         <path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path>
         <circle cx="12" cy="12" r="1"></circle>
       </svg>
       Precision installation
-    </span>
+    </a>
     <span class="trust-item">
       <svg class="trust-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M12 3 20 6v5c0 5-3.4 8.3-8 10-4.6-1.7-8-5-8-10V6l8-3Z"></path>
@@ -86,22 +76,7 @@ const tintVisuals = [
     </div>
     <div class="card-grid tint-card-grid">
       {tintOptions.map((option: any, index: number) => (
-        <article class:list={['service-card', { featured: index === 0 }]} data-tint-card={index === 0 ? 'featured' : undefined}>
-          <span class="card-label">{option.label}</span>
-          <div class="service-card-title">
-            <img
-              src={option.imageUrl || tintVisuals[index]?.src}
-              alt={option.imageAlt || tintVisuals[index]?.alt || `${option.name} illustrative vehicle tint`}
-              width="320"
-              height="320"
-              loading="lazy"
-            />
-            <h3>{option.name}</h3>
-          </div>
-          <p>{option.description}</p>
-          <ul>{option.features?.map((feature: string) => <li>{feature}</li>)}</ul>
-          <a href="/contact">Ask about this film →</a>
-        </article>
+        <TintOptionCard option={option} index={index} />
       ))}
     </div>
   </section>
@@ -121,21 +96,28 @@ const tintVisuals = [
     </div>
   </section>
 
-  <section class="section coating-preview">
+  <section class="section property-tint-preview">
     <div class="section-heading">
-      <p class="eyebrow">Beyond the glass</p>
-      <h2>Ceramic coating with serious presence.</h2>
-      <p>A high-gloss, hydrophobic protective layer designed to make your vehicle easier to maintain and harder for the elements to damage.</p>
+      <p class="eyebrow">Tint beyond the road</p>
+      <h2>Better glass for Mansfield spaces.</h2>
+      <p>Bring glare control, daytime privacy, and a polished finish to the windows where you live and work.</p>
     </div>
-    <ul class="feature-list coating-feature-list">
-      {coatingFeatures.slice(0, 6).map((feature: string) => (
-        <li>
-          <CoatingFeatureIcon feature={feature} />
-          <span>{feature}</span>
-        </li>
+    <div class="property-tint-grid">
+      {[
+        { page: residentialPage, href: '/residential-tint', label: 'Residential Tint' },
+        { page: commercialPage, href: '/commercial-tint', label: 'Commercial Tint' },
+      ].map(({ page, href, label }) => (
+        <article class="property-tint-card">
+          <img src={page.imageUrl} alt={page.imageAlt || ''} width="1200" height="800" loading="lazy" />
+          <div>
+            <p class="eyebrow">{label}</p>
+            <h3>{page.headline}</h3>
+            <p>{page.intro}</p>
+            <a class="text-link" href={href}>Explore {label.toLowerCase()} →</a>
+          </div>
+        </article>
       ))}
-    </ul>
-    <a class="text-link" href="/ceramic-coating">Explore ceramic coating →</a>
+    </div>
   </section>
 
   <section class="section reviews">
@@ -174,25 +156,17 @@ const tintVisuals = [
   <CTA settings={settings} />
 
   <script>
-    const featuredTintCard = document.querySelector<HTMLElement>('[data-tint-card="featured"]');
-
-    if (featuredTintCard) {
+    const featuredTintCards = document.querySelectorAll<HTMLElement>('[data-tint-card="featured"]');
+    featuredTintCards.forEach((featuredTintCard) => {
       let isOnscreen = false;
-
-      const syncEdgeAnimation = () => {
+      const syncEdgeAnimation = () =>
         featuredTintCard.classList.toggle('edge-active', isOnscreen && !document.hidden);
-      };
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          isOnscreen = entry?.isIntersecting ?? false;
-          syncEdgeAnimation();
-        },
-        { rootMargin: '80px' },
-      );
-
+      const observer = new IntersectionObserver(([entry]) => {
+        isOnscreen = entry?.isIntersecting ?? false;
+        syncEdgeAnimation();
+      }, { rootMargin: '80px' });
       observer.observe(featuredTintCard);
       document.addEventListener('visibilitychange', syncEdgeAnimation);
-    }
+    });
   </script>
 </BaseLayout>

@@ -20,6 +20,7 @@ const siteSettings = defineType({
     defineField({ name: 'comparisonEyebrow', title: 'Tint comparison eyebrow', type: 'string' }),
     defineField({ name: 'comparisonTitle', title: 'Tint comparison heading', type: 'string' }),
     defineField({ name: 'comparisonInstruction', title: 'Tint comparison instruction', type: 'text' }),
+    defineField({ name: 'comparisonInstructionMobile', title: 'Tint comparison mobile instruction', type: 'text' }),
   ],
 });
 
@@ -40,20 +41,14 @@ const tintOption = defineType({
       ],
     }),
     defineField({ name: 'description', title: 'Description', type: 'text' }),
+    defineField({
+      name: 'price',
+      title: 'Price',
+      type: 'number',
+      validation: (r) => r.required().positive(),
+    }),
     defineField({ name: 'features', title: 'Features', type: 'array', of: [defineArrayMember({ type: 'string' })] }),
     defineField({ name: 'order', title: 'Order', type: 'number' }),
-  ],
-});
-
-const ceramicCoating = defineType({
-  name: 'ceramicCoating',
-  title: 'Ceramic coating',
-  type: 'document',
-  fields: [
-    defineField({ name: 'title', title: 'Title', type: 'string' }),
-    defineField({ name: 'intro', title: 'Introduction', type: 'text' }),
-    defineField({ name: 'features', title: 'Features', type: 'array', of: [defineArrayMember({ type: 'string' })] }),
-    defineField({ name: 'warranty', title: 'Warranty text', type: 'text' }),
   ],
 });
 
@@ -98,6 +93,15 @@ const page = defineType({
     defineField({ name: 'bodyHeading', title: 'Body heading', type: 'string' }),
     defineField({ name: 'bodyCopy', title: 'Body copy', type: 'text' }),
     defineField({
+      name: 'image',
+      title: 'Page image',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        defineField({ name: 'alt', title: 'Alternative text', type: 'string' }),
+      ],
+    }),
+    defineField({
       name: 'legalSections',
       title: 'Legal sections',
       type: 'array',
@@ -113,4 +117,4 @@ const page = defineType({
   ],
 });
 
-export const schemaTypes = [siteSettings, tintOption, ceramicCoating, review, galleryItem, page];
+export const schemaTypes = [siteSettings, tintOption, review, galleryItem, page];

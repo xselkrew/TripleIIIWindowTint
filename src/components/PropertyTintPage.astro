@@ -1,0 +1,36 @@
+---
+import CTA from './CTA.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+interface Props {
+  settings: Record<string, any>;
+  page: Record<string, any>;
+  serviceName: string;
+  description: string;
+  benefits: string[];
+}
+
+const { settings, page, serviceName, description, benefits } = Astro.props;
+---
+
+<BaseLayout title={`${serviceName} | ${settings.businessName}`} description={description} settings={settings}>
+  <section class="page-hero property-page-hero">
+    <div>
+      <p class="eyebrow">{page.eyebrow}</p>
+      <h1>{page.headline}</h1>
+      <p>{page.intro}</p>
+    </div>
+    <img src={page.imageUrl} alt={page.imageAlt || ''} width="1200" height="800" />
+  </section>
+  <section class="section split property-service-body">
+    <div>
+      <p class="eyebrow">Serving Mansfield, Texas</p>
+      <h2>{page.bodyHeading}</h2>
+      <p>{page.bodyCopy}</p>
+    </div>
+    <ul class="feature-list">
+      {benefits.map((benefit) => <li>{benefit}</li>)}
+    </ul>
+  </section>
+  <CTA settings={settings} title={`Plan your ${serviceName.toLowerCase()} project.`} />
+</BaseLayout>

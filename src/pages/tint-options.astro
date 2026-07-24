@@ -1,5 +1,6 @@
 ---
 import CTA from '../components/CTA.astro';
+import TintOptionCard from '../components/TintOptionCard.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPage, getSiteContent } from '../lib/content';
 const { settings, tintOptions } = await getSiteContent();
@@ -7,8 +8,29 @@ const page = await getPage('tint-options');
 ---
 <BaseLayout title={`Tint Options | ${settings.businessName}`} description="Compare ceramic, color stable, and economy automotive window tint." settings={settings}>
   <section class="page-hero"><p class="eyebrow">{page.eyebrow}</p><h1>{page.headline}</h1><p>{page.intro}</p></section>
-  <section class="section card-grid">
-    {tintOptions.map((option: any) => <article class="service-card"><span class="card-label">{option.label}</span><h2>{option.name}</h2><p>{option.description}</p><ul>{option.features?.map((feature: string) => <li>{feature}</li>)}</ul></article>)}
+  <section class="section tint-options-section">
+    <div class="card-grid tint-card-grid">
+      {tintOptions.map((option: any, index: number) => (
+        <TintOptionCard option={option} index={index} showPrice />
+      ))}
+    </div>
+    <aside class="pricing-disclaimer" aria-label="Pricing information">
+      Pricing for all windows, except for windshield and sunroof.
+    </aside>
   </section>
   <CTA settings={settings} />
+  <script>
+    const featuredTintCard = document.querySelector<HTMLElement>('[data-tint-card="featured"]');
+    if (featuredTintCard) {
+      let isOnscreen = false;
+      const syncEdgeAnimation = () =>
+        featuredTintCard.classList.toggle('edge-active', isOnscreen && !document.hidden);
+      const observer = new IntersectionObserver(([entry]) => {
+        isOnscreen = entry?.isIntersecting ?? false;
+        syncEdgeAnimation();
+      }, { rootMargin: '80px' });
+      observer.observe(featuredTintCard);
+      document.addEventListener('visibilitychange', syncEdgeAnimation);
+    }
+  </script>
 </BaseLayout>

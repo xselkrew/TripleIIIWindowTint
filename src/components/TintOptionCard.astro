@@ -1,0 +1,52 @@
+---
+interface Props {
+  option: Record<string, any>;
+  index: number;
+  showPrice?: boolean;
+}
+
+const { option, index, showPrice = false } = Astro.props;
+const fallbackVisuals = [
+  {
+    src: '/tint-options/ceramic-tint.webp',
+    alt: 'Dark ceramic-tinted vehicle windows reflecting bright sunlight',
+  },
+  {
+    src: '/tint-options/color-stable-tint.webp',
+    alt: 'Neutral charcoal tint on a silver vehicle',
+  },
+  {
+    src: '/tint-options/economy-tint.webp',
+    alt: 'Privacy tint on a blue-gray everyday vehicle',
+  },
+];
+const fallback = fallbackVisuals[index];
+const price = typeof option.price === 'number'
+  ? new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0,
+    }).format(option.price)
+  : null;
+---
+
+<article
+  class:list={['service-card', { featured: index === 0 }]}
+  data-tint-card={index === 0 ? 'featured' : undefined}
+>
+  <span class="card-label">{option.label}</span>
+  <div class="service-card-title">
+    <img
+      src={option.imageUrl || fallback?.src}
+      alt={option.imageAlt || fallback?.alt || `${option.name} illustrative vehicle tint`}
+      width="320"
+      height="320"
+      loading="lazy"
+    />
+    <h3>{option.name}</h3>
+  </div>
+  {showPrice && price && <p class="service-price">{price}</p>}
+  <p>{option.description}</p>
+  <ul>{option.features?.map((feature: string) => <li>{feature}</li>)}</ul>
+  <a href="/contact">Ask about this film →</a>
+</article>

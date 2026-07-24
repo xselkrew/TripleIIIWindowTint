@@ -1,0 +1,21 @@
+---
+import PropertyTintPage from '../components/PropertyTintPage.astro';
+import { getPage, getSiteContent } from '../lib/content';
+
+const { settings } = await getSiteContent();
+const page = await getPage('commercial-tint');
+const benefits = [
+  'Control glare across customer and employee spaces',
+  'Reduce ultraviolet exposure to furnishings and displays',
+  'Add privacy without sacrificing a professional appearance',
+  'Create a consistent finish across storefront and office glass',
+];
+---
+
+<PropertyTintPage
+  settings={settings}
+  page={page}
+  serviceName="Commercial Tint"
+  description="Commercial window film for Mansfield storefronts, offices, glare control, privacy, and UV protection."
+  benefits={benefits}
+/>

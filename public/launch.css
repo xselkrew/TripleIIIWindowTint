@@ -197,6 +197,14 @@
   letter-spacing: 0.035em;
 }
 
+.site-header nav {
+  gap: clamp(12px, 1.35vw, 22px);
+}
+
+.site-header nav > a:not(.button) {
+  font-size: 0.8rem;
+}
+
 .trust-strip {
   color: #fff;
 }
@@ -223,6 +231,50 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   filter: drop-shadow(0 0 7px rgba(255, 255, 255, 0.22));
+}
+
+.trust-item-warranty {
+  position: relative;
+  padding: 10px 17px;
+  border: 1px solid rgba(184, 236, 255, 0.56);
+  border-radius: 999px;
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(57, 196, 255, 0.24), rgba(19, 143, 200, 0.12)),
+    rgba(255, 255, 255, 0.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    0 0 22px rgba(57, 196, 255, 0.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.25);
+  backdrop-filter: blur(12px) saturate(1.25);
+  animation: warranty-trust-pulse 3.8s ease-in-out infinite;
+  text-decoration: none;
+}
+
+.trust-item-warranty:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+}
+
+.trust-item-warranty .trust-icon {
+  color: #b8ecff;
+  stroke-width: 2.2;
+  filter:
+    drop-shadow(0 0 5px rgba(255, 255, 255, 0.38))
+    drop-shadow(0 0 10px rgba(57, 196, 255, 0.55));
+}
+
+@keyframes warranty-trust-pulse {
+  0%, 100% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.26),
+      0 0 18px rgba(57, 196, 255, 0.16);
+  }
+  50% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.34),
+      0 0 30px rgba(57, 196, 255, 0.32);
+  }
 }
 
 .tint-card-grid .service-card {
@@ -277,27 +329,89 @@
   margin: 0;
 }
 
-.coating-feature-list li {
+.service-price {
+  flex-grow: 0 !important;
+  margin: 2px 0 12px;
+  color: #fff;
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.pricing-disclaimer {
+  margin-top: 24px;
+  padding: 18px 22px;
+  border: 1px solid rgba(255, 213, 74, 0.46);
+  border-radius: 14px;
+  color: #fff4c6;
+  background: rgba(255, 213, 74, 0.07);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.comparison-instruction-mobile,
+.comparison-prompt-mobile {
+  display: none;
+}
+
+.property-tint-preview {
+  border-top: 1px solid var(--line);
+}
+
+.property-tint-grid {
   display: grid;
-  grid-template-columns: 24px minmax(0, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.property-tint-card {
+  overflow: hidden;
+  border: 1px solid rgba(184, 236, 255, 0.22);
+  border-radius: 22px;
+  background:
+    linear-gradient(145deg, rgba(31, 47, 58, 0.74), rgba(7, 12, 16, 0.9)),
+    var(--panel);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 22px 55px rgba(0, 0, 0, 0.28);
+}
+
+.property-tint-card > img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.property-tint-card > div {
+  padding: 30px;
+}
+
+.property-tint-card h3 {
+  font-size: clamp(2.1rem, 3.7vw, 3.2rem);
+}
+
+.property-page-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(380px, 1.1fr);
   align-items: center;
-  gap: 12px;
-  padding-left: 16px;
+  gap: 54px;
 }
 
-.coating-feature-list li::before {
-  content: none;
+.property-page-hero > img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid rgba(184, 236, 255, 0.28);
+  border-radius: 22px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
 }
 
-.coating-feature-icon {
-  width: 24px;
-  height: 24px;
-  color: var(--blue);
-  stroke: currentColor;
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 7px rgba(57, 196, 255, 0.26));
+.property-service-body .feature-list li::before {
+  content: "III";
 }
 
 .tint-card-grid .service-card.featured {
@@ -941,6 +1055,15 @@
     grid-template-columns: 1fr;
   }
 
+  .property-tint-grid,
+  .property-page-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .property-page-hero {
+    gap: 30px;
+  }
+
   .windshield {
     min-height: 310px;
     border-radius: 40px 40px 22px 22px / 24px 24px 16px 16px;
@@ -1065,6 +1188,10 @@
     transition: none;
   }
 
+  .trust-item-warranty {
+    animation: none;
+  }
+
   .review-arrow {
     animation: none;
   }
@@ -1085,6 +1212,18 @@
 
   .tint-card-grid .service-card.featured.edge-active::before {
     animation: none;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .comparison-instruction-desktop,
+  .comparison-prompt-desktop {
+    display: none;
+  }
+
+  .comparison-instruction-mobile,
+  .comparison-prompt-mobile {
+    display: inline;
   }
 }
 

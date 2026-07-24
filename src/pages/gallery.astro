@@ -5,7 +5,7 @@ const { settings } = await getSiteContent();
 const page = await getPage('gallery');
 const gallery = await getGallery();
 ---
-<BaseLayout title={`Gallery | ${settings.businessName}`} description="Recent automotive tint and ceramic coating work." settings={settings}>
+<BaseLayout title={`Gallery | ${settings.businessName}`} description="Recent automotive, residential, and commercial window tint work." settings={settings}>
   <section class="page-hero"><p class="eyebrow">{page.eyebrow}</p><h1>{page.headline}</h1><p>{page.intro}</p></section>
   {gallery.length ? (
     <section class="section gallery-grid">

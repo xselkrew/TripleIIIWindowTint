@@ -1,0 +1,21 @@
+---
+import PropertyTintPage from '../components/PropertyTintPage.astro';
+import { getPage, getSiteContent } from '../lib/content';
+
+const { settings } = await getSiteContent();
+const page = await getPage('residential-tint');
+const benefits = [
+  'Reduce harsh glare in living and working areas',
+  'Block damaging ultraviolet exposure',
+  'Improve daytime privacy with available film styles',
+  'Help manage solar heat through existing windows',
+];
+---
+
+<PropertyTintPage
+  settings={settings}
+  page={page}
+  serviceName="Residential Tint"
+  description="Residential window tint for glare, UV exposure, privacy, and solar heat control in Mansfield, Texas."
+  benefits={benefits}
+/>

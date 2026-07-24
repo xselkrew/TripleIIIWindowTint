@@ -1,6 +1,5 @@
 import { createClient } from '@sanity/client';
 import {
-  defaultCoatingFeatures,
   defaultReviews,
   defaultSettings,
   defaultTintOptions,
@@ -20,7 +19,6 @@ export async function getSiteContent() {
     return {
       settings: defaultSettings,
       tintOptions: defaultTintOptions,
-      coatingFeatures: defaultCoatingFeatures,
       reviews: defaultReviews,
     };
   }
@@ -33,23 +31,18 @@ export async function getSiteContent() {
         "imageUrl": image.asset->url,
         "imageAlt": image.alt
       },
-      "coating": *[_type == "ceramicCoating"][0],
       "reviews": *[_type == "review" && featured == true] | order(order asc)
     }`);
 
     return {
       settings: { ...defaultSettings, ...(data.settings || {}) },
       tintOptions: data.tintOptions?.length ? data.tintOptions : defaultTintOptions,
-      coatingFeatures: data.coating?.features?.length
-        ? data.coating.features
-        : defaultCoatingFeatures,
       reviews: data.reviews?.length ? data.reviews : defaultReviews,
     };
   } catch {
     return {
       settings: defaultSettings,
       tintOptions: defaultTintOptions,
-      coatingFeatures: defaultCoatingFeatures,
       reviews: defaultReviews,
     };
   }
@@ -62,11 +55,16 @@ export async function getPage(slug: string) {
     const page = await client.fetch(
       `*[_type == "page" && slug.current == $slug][0]{
         eyebrow, headline, intro, bodyHeading, bodyCopy, seoDescription,
+        "imageUrl": image.asset->url,
+        "imageAlt": image.alt,
         legalSections[]{heading, copy}
       }`,
       { slug },
     );
-    return { ...fallback, ...(page || {}) };
+    const publishedValues = Object.fromEntries(
+      Object.entries(page || {}).filter(([, value]) => value !== null && value !== undefined),
+    );
+    return { ...fallback, ...publishedValues };
   } catch {
     return fallback;
   }
