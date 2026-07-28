@@ -24,14 +24,13 @@ const schema = [
   },
   breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Gallery', path: '/gallery' }]),
 ];
-const socialImage = gallery[0]?.carouselUrl || '/og.png';
 ---
 <BaseLayout
   title={seoTitle}
   description={seoDescription}
   settings={settings}
-  socialImage={socialImage}
-  socialImageAlt={gallery[0]?.alt || `${settings.businessName} window tint project gallery`}
+  socialImage="/og.png"
+  socialImageAlt={`${settings.businessName} — Mansfield, Texas`}
   schema={schema}
 >
   <section class="page-hero"><p class="eyebrow">{page.eyebrow}</p><h1>{page.headline}</h1><p>{page.intro}</p></section>

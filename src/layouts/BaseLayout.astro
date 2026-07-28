@@ -35,7 +35,7 @@ const businessSchema = {
   '@id': `${origin}/#business`,
   name: settings.businessName,
   url: `${origin}/`,
-  logo: `${origin}/logo.webp`,
+  logo: `${origin}/logo.png`,
   image: socialImageUrl.href,
   telephone: settings.phoneHref,
   address: {
@@ -91,8 +91,7 @@ const jsonLd = JSON.stringify([businessSchema, ...pageSchemas].filter(Boolean)).
   <body>
     <header class="site-header">
       <a class="brand" href="/" aria-label={`${settings.businessName} home`}>
-        <img src="/logo.webp" width="512" height="512" alt="" />
-        <span>{settings.businessName}</span>
+        <img src="/logo.png" width="1254" height="1254" alt={`${settings.businessName} logo`} />
       </a>
       <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav id="site-nav" aria-label="Main navigation">
