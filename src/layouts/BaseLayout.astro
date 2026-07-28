@@ -9,6 +9,7 @@ interface Props {
 
 const { title, description, settings } = Astro.props;
 const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(settings.address)}&output=embed`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 ---
 
 <!doctype html>
@@ -19,6 +20,7 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(settings
     <meta name="description" content={description} />
     <meta name="theme-color" content="#050607" />
     <title>{title}</title>
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
