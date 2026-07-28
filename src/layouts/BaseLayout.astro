@@ -5,11 +5,53 @@ interface Props {
   title: string;
   description: string;
   settings: Record<string, any>;
+  robots?: string;
+  socialImage?: string;
+  socialImageAlt?: string;
+  schema?: Record<string, any> | Record<string, any>[];
 }
 
-const { title, description, settings } = Astro.props;
+const {
+  title,
+  description,
+  settings,
+  robots = 'index,follow',
+  socialImage = '/og.png',
+  socialImageAlt = `${settings.businessName} in Mansfield, Texas`,
+  schema = [],
+} = Astro.props;
 const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(settings.address)}&output=embed`;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const socialImageUrl = new URL(socialImage, Astro.site ?? Astro.url.origin);
+const origin = (Astro.site ?? Astro.url).origin;
+const socialProfiles = [
+  settings.facebookUrl,
+  settings.instagramUrl,
+  settings.tiktokUrl,
+].filter(Boolean);
+const businessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AutomotiveBusiness',
+  '@id': `${origin}/#business`,
+  name: settings.businessName,
+  url: `${origin}/`,
+  logo: `${origin}/logo.webp`,
+  image: socialImageUrl.href,
+  telephone: settings.phoneHref,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '1275 N Main St #505',
+    addressLocality: 'Mansfield',
+    addressRegion: 'TX',
+    postalCode: '76063',
+    addressCountry: 'US',
+  },
+  openingHours: ['Mo-Sa 09:00-18:00', 'Su 10:00-18:00'],
+  hasMap: settings.googleMapsUrl,
+  sameAs: socialProfiles,
+};
+const pageSchemas = Array.isArray(schema) ? schema : [schema];
+const jsonLd = JSON.stringify([businessSchema, ...pageSchemas].filter(Boolean)).replace(/</g, '\\u003c');
 ---
 
 <!doctype html>
@@ -18,9 +60,24 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
     <meta name="theme-color" content="#050607" />
     <title>{title}</title>
     <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={settings.businessName} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
+    <script is:inline type="application/ld+json" set:html={jsonLd}></script>
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

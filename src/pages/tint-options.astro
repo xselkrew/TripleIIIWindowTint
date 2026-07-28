@@ -3,15 +3,67 @@ import CTA from '../components/CTA.astro';
 import TintOptionCard from '../components/TintOptionCard.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPage, getSiteContent } from '../lib/content';
+import { breadcrumbSchema, SITE_ORIGIN, webPageSchema } from '../lib/seo';
 const { settings, tintOptions } = await getSiteContent();
 const page = await getPage('tint-options');
+const seoTitle = page.seoTitle || `Car Window Tint Options Mansfield TX | ${settings.businessName}`;
+const seoDescription = page.seoDescription || 'Compare ceramic, color stable, and economy car window tint in Mansfield, TX. Explore heat rejection, UV protection, privacy, features, and pricing.';
+const tintSlugs = ['ceramic-tint', 'color-stable-tint', 'economy-tint'];
+const pageUrl = `${SITE_ORIGIN}/tint-options`;
+const schema = [
+  webPageSchema('CollectionPage', seoTitle, seoDescription, '/tint-options'),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Automotive window tint options',
+    numberOfItems: tintOptions.length,
+    itemListElement: tintOptions.map((option: any, index: number) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: `${pageUrl}#${tintSlugs[index]}`,
+      item: {
+        '@type': 'Service',
+        name: option.name,
+        description: option.description,
+        image: new URL(option.imageUrl || `/tint-options/${tintSlugs[index]}.webp`, SITE_ORIGIN).href,
+        provider: { '@id': `${SITE_ORIGIN}/#business` },
+        areaServed: { '@type': 'City', name: 'Mansfield' },
+        offers: typeof option.price === 'number' ? {
+          '@type': 'Offer',
+          priceCurrency: 'USD',
+          price: option.price,
+          url: `${pageUrl}#${tintSlugs[index]}`,
+        } : undefined,
+      },
+    })),
+  },
+  breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Window Tint Options', path: '/tint-options' },
+  ]),
+];
 ---
-<BaseLayout title={`Tint Options | ${settings.businessName}`} description="Compare ceramic, color stable, and economy automotive window tint." settings={settings}>
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  settings={settings}
+  socialImage="/tint-options/ceramic-tint.webp"
+  socialImageAlt="Automotive window tint options from Triple III Window Tint"
+  schema={schema}
+>
   <section class="page-hero"><p class="eyebrow">{page.eyebrow}</p><h1>{page.headline}</h1><p>{page.intro}</p></section>
   <section class="section tint-options-section">
     <div class="card-grid tint-card-grid">
       {tintOptions.map((option: any, index: number) => (
-        <TintOptionCard option={option} index={index} showPrice />
+        <TintOptionCard
+          option={option}
+          index={index}
+          showPrice
+          headingLevel="h2"
+          id={tintSlugs[index]}
+          linkHref={`/contact?film=${tintSlugs[index]}`}
+          linkText={`Ask about ${option.name.toLowerCase()} →`}
+        />
       ))}
     </div>
     <aside class="pricing-disclaimer" aria-label="Pricing information">

@@ -62,7 +62,7 @@ export async function getPage(slug: string) {
   try {
     const page = await client.fetch(
       `*[_type == "page" && slug.current == $slug][0]{
-        eyebrow, headline, intro, bodyHeading, bodyCopy, seoDescription,
+        eyebrow, headline, intro, bodyHeading, bodyCopy, seoTitle, seoDescription,
         "imageUrl": image.asset->url,
         "imageAlt": image.alt,
         legalSections[]{heading, copy}

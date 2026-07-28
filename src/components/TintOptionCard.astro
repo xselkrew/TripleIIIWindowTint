@@ -3,9 +3,22 @@ interface Props {
   option: Record<string, any>;
   index: number;
   showPrice?: boolean;
+  headingLevel?: 'h2' | 'h3';
+  id?: string;
+  linkHref?: string;
+  linkText?: string;
 }
 
-const { option, index, showPrice = false } = Astro.props;
+const {
+  option,
+  index,
+  showPrice = false,
+  headingLevel = 'h3',
+  id,
+  linkHref = '/contact',
+  linkText = 'Ask about this film →',
+} = Astro.props;
+const Heading = headingLevel;
 const fallbackVisuals = [
   {
     src: '/tint-options/ceramic-tint.webp',
@@ -33,6 +46,7 @@ const price = typeof option.price === 'number'
 <article
   class:list={['service-card', { featured: index === 0 }]}
   data-tint-card={index === 0 ? 'featured' : undefined}
+  id={id}
 >
   <span class="card-label">{option.label}</span>
   <div class="service-card-title">
@@ -43,10 +57,10 @@ const price = typeof option.price === 'number'
       height="320"
       loading="lazy"
     />
-    <h3>{option.name}</h3>
+    <Heading>{option.name}</Heading>
   </div>
   {showPrice && price && <p class="service-price">{price}</p>}
   <p>{option.description}</p>
   <ul>{option.features?.map((feature: string) => <li>{feature}</li>)}</ul>
-  <a href="/contact">Ask about this film →</a>
+  <a href={linkHref}>{linkText}</a>
 </article>

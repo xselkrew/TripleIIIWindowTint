@@ -5,6 +5,7 @@ import TintSqueegeeSlider from '../components/TintSqueegeeSlider.astro';
 import { ShaderBackground } from '../components/ui/istanblue';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPage, getSiteContent } from '../lib/content';
+import { SITE_ORIGIN, webPageSchema } from '../lib/seo';
 
 const { settings, tintOptions, reviews } = await getSiteContent();
 const [residentialPage, commercialPage] = await Promise.all([
@@ -14,11 +15,26 @@ const [residentialPage, commercialPage] = await Promise.all([
 const siteOrigin = Astro.url.origin;
 const videoUrl = `https://www.youtube.com/embed/${settings.heroVideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${settings.heroVideoId}&playsinline=1&modestbranding=1&rel=0&disablekb=1&fs=0&iv_load_policy=3&origin=${encodeURIComponent(siteOrigin)}`;
 const videoPoster = `https://i.ytimg.com/vi/${settings.heroVideoId}/maxresdefault.jpg`;
+const seoTitle = `${settings.businessName} | Car Window Tint Mansfield TX`;
+const seoDescription = 'Professional automotive, residential, and commercial window tint in Mansfield, Texas. Compare film options and call or text Triple III for a quote.';
+const tintSlugs = ['ceramic-tint', 'color-stable-tint', 'economy-tint'];
+const schema = [
+  webPageSchema('WebPage', seoTitle, seoDescription, '/'),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE_ORIGIN}/#website`,
+    name: settings.businessName,
+    url: `${SITE_ORIGIN}/`,
+    publisher: { '@id': `${SITE_ORIGIN}/#business` },
+  },
+];
 ---
 <BaseLayout
-  title={`${settings.businessName} | Mansfield Automotive Window Tint`}
-  description="Automotive, residential, and commercial window tint installed in Mansfield, Texas."
+  title={seoTitle}
+  description={seoDescription}
   settings={settings}
+  schema={schema}
 >
   <div class="hero-stage">
   <section class="hero" style={`--hero-poster: url("${videoPoster}")`}>
@@ -75,7 +91,12 @@ const videoPoster = `https://i.ytimg.com/vi/${settings.heroVideoId}/maxresdefaul
     </div>
     <div class="card-grid tint-card-grid">
       {tintOptions.map((option: any, index: number) => (
-        <TintOptionCard option={option} index={index} />
+        <TintOptionCard
+          option={option}
+          index={index}
+          linkHref={`/tint-options#${tintSlugs[index]}`}
+          linkText={`Explore ${option.name.toLowerCase()} →`}
+        />
       ))}
     </div>
   </section>

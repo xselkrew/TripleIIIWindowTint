@@ -2,10 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import { getPage, getSiteContent } from '../lib/content';
+import { breadcrumbSchema, webPageSchema } from '../lib/seo';
 const { settings } = await getSiteContent();
 const page = await getPage('contact');
+const seoTitle = page.seoTitle || `Window Tint Quote Mansfield TX | ${settings.businessName}`;
+const seoDescription = page.seoDescription || `Call or text ${settings.businessName} for an automotive, residential, or commercial window tint quote in Mansfield, Texas.`;
+const schema = [
+  webPageSchema('ContactPage', seoTitle, seoDescription, '/contact'),
+  breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }]),
+];
 ---
-<BaseLayout title={`Contact & Quote | ${settings.businessName}`} description="Call or text for automotive, residential, or commercial window tint in Mansfield." settings={settings}>
+<BaseLayout title={seoTitle} description={seoDescription} settings={settings} schema={schema}>
   <section class="page-hero"><p class="eyebrow">{page.eyebrow}</p><h1>{page.headline}</h1><p>{page.intro}</p></section>
   <section class="section contact-grid">
     <div class="contact-panel"><p class="eyebrow">Book directly</p><h2>Call or text Triple III.</h2><a class="contact-action" href={`tel:${settings.phoneHref}`}>Call {settings.phoneDisplay}</a><a class="contact-action" href={`sms:${settings.phoneHref}`}>Text {settings.phoneDisplay}</a></div>

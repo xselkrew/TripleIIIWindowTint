@@ -1,6 +1,7 @@
 ---
 import CTA from './CTA.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { breadcrumbSchema, SITE_ORIGIN, webPageSchema } from '../lib/seo';
 
 interface Props {
   settings: Record<string, any>;
@@ -8,12 +9,44 @@ interface Props {
   serviceName: string;
   description: string;
   benefits: string[];
+  path: string;
 }
 
-const { settings, page, serviceName, description, benefits } = Astro.props;
+const { settings, page, serviceName, description, benefits, path } = Astro.props;
+const seoTitle = page.seoTitle || `${serviceName} Mansfield TX | ${settings.businessName}`;
+const seoDescription = page.seoDescription || description;
+const schema = [
+  webPageSchema('WebPage', seoTitle, seoDescription, path),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${new URL(path, SITE_ORIGIN).href}#service`,
+    name: serviceName,
+    description: seoDescription,
+    serviceType: serviceName,
+    provider: { '@id': `${SITE_ORIGIN}/#business` },
+    areaServed: {
+      '@type': 'City',
+      name: 'Mansfield',
+      containedInPlace: { '@type': 'State', name: 'Texas' },
+    },
+    url: new URL(path, SITE_ORIGIN).href,
+  },
+  breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: serviceName, path },
+  ]),
+];
 ---
 
-<BaseLayout title={`${serviceName} | ${settings.businessName}`} description={description} settings={settings}>
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  settings={settings}
+  socialImage={page.imageUrl}
+  socialImageAlt={page.imageAlt}
+  schema={schema}
+>
   <section class="page-hero property-page-hero">
     <div>
       <p class="eyebrow">{page.eyebrow}</p>

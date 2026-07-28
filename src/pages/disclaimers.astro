@@ -15,8 +15,15 @@ const cmsSections = page.legalSections?.filter(
   (section: any) => !section.heading?.toLowerCase().includes('ceramic coating'),
 );
 const sections = cmsSections?.length ? cmsSections : fallbackSections;
+const seoTitle = page.seoTitle || `Service & Warranty Disclaimers | ${settings.businessName}`;
+const seoDescription = page.seoDescription || 'Review service, warranty, window tint law, estimate, architectural film, and third-party content disclaimers for Triple III Window Tint.';
 ---
-<BaseLayout title={`Disclaimers | ${settings.businessName}`} description="Service, warranty, tint law, estimate, and care disclaimers." settings={settings}>
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  settings={settings}
+  robots="noindex,follow"
+>
   <section class="page-hero legal-hero"><p class="eyebrow">Important information</p><h1>Disclaimers</h1><p>Last updated July 23, 2026. This starter language should be reviewed by a qualified attorney before launch.</p></section>
   <article class="legal">
     {sections.map((section: any) => <><h2>{section.heading}</h2><p>{section.copy}</p></>)}

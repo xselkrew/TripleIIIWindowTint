@@ -3,11 +3,37 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import InfiniteGallery from '../components/ui/3d-gallery-photography';
 import { getGallery, getPage, getSiteContent } from '../lib/content';
+import { breadcrumbSchema, webPageSchema } from '../lib/seo';
 const { settings } = await getSiteContent();
 const page = await getPage('gallery');
 const gallery = await getGallery();
+const seoTitle = page.seoTitle || `Window Tint Gallery Mansfield TX | ${settings.businessName}`;
+const seoDescription = page.seoDescription || 'View automotive, residential, and commercial window tint projects from Triple III Window Tint in Mansfield, Texas.';
+const galleryImages = gallery.slice(0, 20).map((item: any) => ({
+  '@type': 'ImageObject',
+  name: item.title,
+  description: item.description,
+  contentUrl: item.viewerUrl,
+  thumbnailUrl: item.carouselUrl,
+  representativeOfPage: false,
+}));
+const schema = [
+  {
+    ...webPageSchema('ImageGallery', seoTitle, seoDescription, '/gallery'),
+    associatedMedia: galleryImages,
+  },
+  breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Gallery', path: '/gallery' }]),
+];
+const socialImage = gallery[0]?.carouselUrl || '/og.png';
 ---
-<BaseLayout title={`Gallery | ${settings.businessName}`} description="Recent automotive, residential, and commercial window tint work." settings={settings}>
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  settings={settings}
+  socialImage={socialImage}
+  socialImageAlt={gallery[0]?.alt || `${settings.businessName} window tint project gallery`}
+  schema={schema}
+>
   <section class="page-hero"><p class="eyebrow">{page.eyebrow}</p><h1>{page.headline}</h1><p>{page.intro}</p></section>
   {gallery.length ? (
     <section class="section gallery-experience">

@@ -116,7 +116,19 @@ const page = defineType({
         ],
       })],
     }),
-    defineField({ name: 'seoDescription', title: 'SEO description', type: 'text' }),
+    defineField({
+      name: 'seoTitle',
+      title: 'SEO title',
+      type: 'string',
+      description: 'Aim for 50–60 characters and include the primary service and location.',
+    }),
+    defineField({
+      name: 'seoDescription',
+      title: 'SEO description',
+      type: 'text',
+      rows: 3,
+      description: 'Aim for 140–160 characters and describe this page accurately.',
+    }),
   ],
 });
 

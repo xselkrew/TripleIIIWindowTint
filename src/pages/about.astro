@@ -2,10 +2,17 @@
 import CTA from '../components/CTA.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPage, getSiteContent } from '../lib/content';
+import { breadcrumbSchema, webPageSchema } from '../lib/seo';
 const { settings } = await getSiteContent();
 const page = await getPage('about');
+const seoTitle = page.seoTitle || `About Our Mansfield Tint Shop | ${settings.businessName}`;
+const seoDescription = page.seoDescription || 'Meet Triple III Window Tint, a Mansfield, Texas shop providing straightforward film recommendations and precise automotive and property tint installation.';
+const schema = [
+  webPageSchema('AboutPage', seoTitle, seoDescription, '/about'),
+  breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }]),
+];
 ---
-<BaseLayout title={`About | ${settings.businessName}`} description="About Triple III Window Tint in Mansfield, Texas." settings={settings}>
+<BaseLayout title={seoTitle} description={seoDescription} settings={settings} schema={schema}>
   <section class="page-hero"><p class="eyebrow">{page.eyebrow}</p><h1>{page.headline}</h1><p>{page.intro}</p></section>
   <section class="section split"><div><h2>{page.bodyHeading}</h2><p>{page.bodyCopy}</p></div><div class="info-panel"><strong>{settings.businessName}</strong><span>{settings.address}</span><span class="business-hours">{settings.hours}</span><a href={settings.googleMapsUrl}>Get directions →</a></div></section>
   <CTA settings={settings} />
