@@ -14,6 +14,14 @@ const client = projectId
   ? createClient({ projectId, dataset, apiVersion, useCdn: false })
   : null;
 
+function mergeSettings(settings: Record<string, any> | null | undefined) {
+  const merged = { ...defaultSettings, ...(settings || {}) };
+  if (merged.hours === 'Monday–Saturday, 9:00 AM–5:00 PM') {
+    merged.hours = defaultSettings.hours;
+  }
+  return merged;
+}
+
 export async function getSiteContent() {
   if (!client) {
     return {
@@ -35,7 +43,7 @@ export async function getSiteContent() {
     }`);
 
     return {
-      settings: { ...defaultSettings, ...(data.settings || {}) },
+      settings: mergeSettings(data.settings),
       tintOptions: data.tintOptions?.length ? data.tintOptions : defaultTintOptions,
       reviews: data.reviews?.length ? data.reviews : defaultReviews,
     };

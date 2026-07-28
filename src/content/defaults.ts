@@ -3,8 +3,11 @@ export const defaultSettings = {
   phoneDisplay: '(817) 617-1808',
   phoneHref: '+18176171808',
   address: '1275 N Main St #505, Mansfield, TX 76063',
-  hours: 'Monday–Saturday, 9:00 AM–5:00 PM',
+  hours: 'Monday–Saturday: 9:00 AM–6:00 PM\nSunday: 10:00 AM–6:00 PM',
   googleMapsUrl: 'https://maps.app.goo.gl/uUeqE9SnnPaNhq7u5',
+  facebookUrl: 'https://www.facebook.com/share/1F4LpffQsW/',
+  instagramUrl: 'https://www.instagram.com/tripleiiiwindowtint?utm_source=qr&igsh=MWh6ZG5wbzRwazY3YQ==',
+  tiktokUrl: 'https://www.tiktok.com/@triple.iii.window?_r=1&_t=ZT-98Pg3LAyE3x',
   heroEyebrow: 'Mansfield, Texas • Automotive Tint & Protection',
   heroTitle: 'Sharper style. Cooler drives. Tint built to last.',
   heroCopy:

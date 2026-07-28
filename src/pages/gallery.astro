@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SocialLinks from '../components/SocialLinks.astro';
 import InfiniteGallery from '../components/ui/3d-gallery-photography';
 import { getGallery, getPage, getSiteContent } from '../lib/content';
 const { settings } = await getSiteContent();
@@ -33,6 +34,6 @@ const gallery = await getGallery();
       </InfiniteGallery>
     </section>
   ) : (
-    <section class="section empty-gallery"><p class="eyebrow">New projects coming soon</p><h2>Follow our work as the gallery grows.</h2><p>Call or text to ask about recent projects like yours.</p><div class="button-row"><a class="button" href={`tel:${settings.phoneHref}`}>Call {settings.phoneDisplay}</a><a class="button button-ghost" href={`sms:${settings.phoneHref}`}>Text us</a></div></section>
+    <section class="section empty-gallery"><p class="eyebrow">New projects coming soon</p><h2>Follow our work as the gallery grows.</h2><p>See recent projects on social media, or call or text to ask about work like yours.</p><SocialLinks settings={settings} class="gallery-social" /><div class="button-row"><a class="button" href={`tel:${settings.phoneHref}`}>Call {settings.phoneDisplay}</a><a class="button button-ghost" href={`sms:${settings.phoneHref}`}>Text us</a></div></section>
   )}
 </BaseLayout>

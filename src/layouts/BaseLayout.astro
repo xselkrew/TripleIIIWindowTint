@@ -1,4 +1,6 @@
 ---
+import SocialLinks from '../components/SocialLinks.astro';
+
 interface Props {
   title: string;
   description: string;
@@ -51,7 +53,8 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(settings
       <div class="footer-details">
         <a class="footer-brand" href="/">{settings.businessName}</a>
         <p>{settings.address}</p>
-        <p>{settings.hours}</p>
+        <p class="business-hours">{settings.hours}</p>
+        <SocialLinks settings={settings} class="footer-social" />
       </div>
       <div class="footer-map">
         <iframe
